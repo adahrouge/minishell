@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_buildin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouraad <abouraad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/31 11:59:44 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:23:58 by abouraad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int echo(t_data *p)
     int i;
     int j;
     i = 1;
+    if (p->cmd_args[1] == NULL)
+    {
+        write(1, "\n", 1);
+        return 0;
+    }
     if (ft_strcmp(p->cmd_args[1], "-n") == 0)
         i = 2;
     while(p->cmd_args[i] != NULL)

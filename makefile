@@ -1,12 +1,13 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -I.
+CFLAGS = -Wall -Wextra -Werror -g -I./includes
 
 # Executable name
 NAME = minishell
 
 # Source and object files
-SRCS = main.c minishell_buildin.c minishell_libft.c minishell_split.c 
+SRC_DIR = src
+SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(SRCS:.c=.o)
 
 # Libraries (add -lreadline if using readline library)
@@ -20,7 +21,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 # Rule to compile .c files to .o files
-%.o: %.c
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean up object files
