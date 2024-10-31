@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/30 12:49:57 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:09:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,28 @@ void loop(t_data *p)
 	while(1)
 	{
 	p->input = readline("minishell > ");
-	read_command_line(p);
 	if (p->input == NULL)
 	break;
 	if (strcmp(p->input, "exit") == 0)
+	{
+		free(p->input);
 		break;
-	add_history(p->input);
-	build_in(p);
 	}
-	free_buildin(p);
+	add_history(p->input);
+	read_command_line(p);
+	build_in(p);
+	free_split(p->cmd_args);
 	free(p->input);
+	}
 }
-int main(void)
+int main(int argc, char **argv)
 {
+	if (argc != 1 && ft_strcmp(argv[0], "./minishell") != 0)
+		return 0;
 	t_data *p;
 	p = malloc(sizeof(t_data));
 	if (!p)
 		return 0;
 	loop(p);
+	free(p);
 }

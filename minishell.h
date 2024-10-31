@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/30 10:09:16 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:14:35 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <errno.h>   
+#include <string.h> 
 
 typedef struct s_data
 {
@@ -38,17 +40,9 @@ int ft_strcmp(char *s1, char *s2);
 char	*word_dup(const char *str, int start, int finish);
 char *pwd(t_data *p);
 void build_in(t_data *p);
-void free_buildin(t_data *p);
 void read_command_line(t_data *p);
-
-
-
-
-
-
-
-
-
+void	free_split(char **split);
+int echo(t_data *p);
 
 
 #endif
