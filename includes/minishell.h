@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouraad <abouraad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/31 13:23:29 by abouraad         ###   ########.fr       */
+/*   Updated: 2024/11/01 09:32:05 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #include <stdio.h>
+#include <linux/limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
@@ -35,6 +36,14 @@ typedef struct s_data
 } t_data;
 
 
+typedef struct s_export
+{
+	struct s_export *previous;
+	struct s_export *next;
+	char *data;
+} t_export;
+
+
 int ft_strlen(const char *str);
 int ft_strcmp(char *s1, char *s2);
 int	count_words(const char *str, char c);
@@ -48,6 +57,13 @@ void	free_split(char **split);
 char	**ft_split(char const *s, char c);
 char	*word_dup(const char *str, int start, int finish);
 char *pwd(t_data *p);
+int echo(t_data *p, int j);
+int cd(t_data *p, int value);
+int input_is_null(t_data *p);
+int input_is_backslash(t_data *p);
+int input_is_exit(t_data *p);
+
+
 
 
 

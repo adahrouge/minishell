@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_buildin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouraad <abouraad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/31 13:23:58 by abouraad         ###   ########.fr       */
+/*   Updated: 2024/11/01 09:30:04 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ int cd(t_data *p, int value)
     }
     return 1;
 }
-int echo(t_data *p)
+int echo(t_data *p, int j)
 {
     int i;
-    int j;
     i = 1;
     if (p->cmd_args[1] == NULL)
     {
@@ -75,9 +74,7 @@ int echo(t_data *p)
         i++;
     }
     if (ft_strcmp(p->cmd_args[1], "-n") == 0)
-    {
         return 0;
-    }
     write(1, "\n", 1);
     return 1;
 }
@@ -85,6 +82,7 @@ int echo(t_data *p)
 void build_in(t_data *p)
 {
     int value;
+
     value = 0;
 	if ((ft_strcmp(p->cmd_args[0], "pwd") == 0) && (p->args == 1))
 	{
@@ -95,5 +93,7 @@ void build_in(t_data *p)
 	else if (ft_strcmp(p->cmd_args[0], "cd") == 0)
 		cd(p, value);
     else if (ft_strcmp(p->cmd_args[0], "echo") == 0)
-        echo(p);
+        echo(p, value);
+    else if (ft_strcmp(p->cmd_args[0], "export") == 0)
+        export(p);
 }

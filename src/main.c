@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouraad <abouraad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/31 13:27:43 by abouraad         ###   ########.fr       */
+/*   Updated: 2024/11/01 08:57:22 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <linux/limits.h>
 
 void read_command_line(t_data *p)
 {
@@ -32,29 +31,24 @@ void free_allocated(t_data *p)
 	free(p->input);
 	free(p);
 }
+
 void loop(t_data *p)
 {
     while (1)
     {
         p->input = readline("minishell > ");
-        if (p->input == NULL)
-        {
-            write(1, "exit\n", 5);
-            break;
-        }
-        if (p->input[0] == '\0')
-        {
-            free(p->input);
+		if (input_is_null(p))
+			break;
+        if (input_is_backslash(p))
             continue;
-        }
-        if (strcmp(p->input, "exit") == 0)
-        {
-            free(p->input);
+        if (input_is_exit(p))
             break;
-        }
+		if (ft_strcmp(p->input, "clear") == 0)
+			printf("\033[H\033[J");
         add_history(p->input);
         read_command_line(p);
         build_in(p);
+		free_split(p->cmd_args);
         free(p->input);
     }
 }

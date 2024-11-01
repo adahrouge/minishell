@@ -1,48 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_libft.c                                  :+:      :+:    :+:   */
+/*   input_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 09:24:07 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/01 08:58:20 by adahroug         ###   ########.fr       */
+/*   Created: 2024/11/01 08:43:23 by adahroug          #+#    #+#             */
+/*   Updated: 2024/11/01 08:57:25 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
-int ft_strcmp(char *s1, char *s2)
+int input_is_null(t_data *p)
 {
-	int i;
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0')
+	if (p->input == NULL)
 	{
-		if (s1[i] != s2[i])
-			return s1[i] - s2[i];
-		i++;
+		  write(1, "exit\n", 5);
+		  free(p->input);
+			return 1;
 	}
-	return s1[i] - s2[i];
+	return 0;
 }
-void	ft_strcpy(char *dest, const char *src)
+int input_is_backslash(t_data *p)
 {
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
+	if (p->input[0] == '\0')
+    {
+    	free(p->input);
+		return 1;
 	}
-	dest[i] = '\0';
+	return 0;
 }
-int ft_strlen(const char *str)
+int input_is_exit(t_data *p)
 {
-	int i;
-	i = 0;
-	while (str[i] != '\0')
+	if (ft_strcmp(p->input, "exit") == 0)
 	{
-		i++;
+		free(p->input);
+		return 1;
 	}
-	return i;
+	return 0;
 }
