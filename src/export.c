@@ -6,13 +6,14 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:45:57 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/01 14:17:11 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 08:33:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern char **environ;
+
 
 t_export *populate_list(t_export *head)
 {
@@ -84,33 +85,25 @@ t_export *merged_sorted_list(t_export *head, t_export *head2)
 		return head2;
 	}
 }
-void free_list(t_export *head)
-{
-	t_export *temp;
-	while (head != NULL)
-	{
-		temp = head;
-		free(head->data);
-		head = head->next;
-		free(temp);
-	}
-}
+
 int export(void)
 {
-	t_export *head;
-	t_export *tmp;
+    t_export *head;
+    t_export *tmp;
+	int i;
+    head = malloc(sizeof(t_export));
+    	if (!head)
+        	return 0;
 
-	head = malloc(sizeof(t_export));
-	if (!head)
-		return 0;
 	head = populate_list(head);
 	head = sort_list(head);
 	tmp = head;
-	while (tmp != NULL)
-	{
-		printf("declare -x %s\n" , tmp->data); // handle double quotation after ""
-		tmp= tmp->next;
-	}
+	i = 0;
+	print_exported_variables(tmp, i);
 	free_list(head);
 	return 0;
 }
+
+
+
+

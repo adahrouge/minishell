@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/01 13:51:59 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 08:30:36 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_export *merged_sorted_list(t_export *head, t_export *head2);
 t_export *sort_list(t_export *head);
 t_export *populate_list(t_export *head);
 void free_list(t_export *head);
+void print_exported_variables(t_export *tmp, int i);
 
 
 
