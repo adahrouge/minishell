@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:33:30 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/04 08:33:48 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:15:54 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,46 @@ void print_exported_variables(t_export *tmp, int i)
         printf("\n");
         tmp = tmp->next;
     }
+}
+
+
+t_export *sort_list(t_export *head)
+{
+	t_export *slow;
+	t_export *fast;
+	t_export *head2;
+	t_export *left;
+	t_export *right;
+	
+	slow = head;
+	fast = head->next;
+	if (head == NULL || head->next == NULL)
+		return head;
+	while (fast != NULL && fast->next != NULL)
+	{
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+	head2 = slow->next;
+	slow->next = NULL;
+	left = sort_list(head);
+	right = sort_list(head2);
+	return merged_sorted_list(left, right);
+}
+t_export *merged_sorted_list(t_export *head, t_export *head2)
+{
+	if (head == NULL)
+	return head2;
+	if (head2 == NULL)
+	return head;
+	if (ft_strcmp(head->data, head2->data) < 0)
+	{
+		head->next = merged_sorted_list(head->next, head2);
+		return head;
+	}
+	else 
+	{
+		head2->next = merged_sorted_list(head, head2->next);
+		return head2;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:07 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/01 08:58:20 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:11:59 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,40 @@ int ft_strlen(const char *str)
 		i++;
 	}
 	return i;
+}
+
+int	compare_chars(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+		{
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		}
+		i++;
+	}
+	if (i < n)
+	{
+		if (s1[i] == '\0' && s2[i] != '\0')
+		{
+			return (-(int)(unsigned char)s2[i]);
+		}
+		if (s2[i] == '\0' && s1[i] != '\0')
+		{
+			return ((int)(unsigned char)s1[i]);
+		}
+	}
+	return (0);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	if (n == 0)
+	{
+		return (0);
+	}
+	return (compare_chars(s1, s2, n));
 }

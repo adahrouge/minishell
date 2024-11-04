@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/04 08:30:36 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:13:23 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <signal.h>
+#include <stddef.h>
 
 typedef struct s_data
 {
@@ -68,6 +69,11 @@ t_export *sort_list(t_export *head);
 t_export *populate_list(t_export *head);
 void free_list(t_export *head);
 void print_exported_variables(t_export *tmp, int i);
+int env(void);
+int	compare_chars(const char *s1, const char *s2, size_t n);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int unset(char *str);
+
 
 
 

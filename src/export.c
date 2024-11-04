@@ -6,14 +6,13 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:45:57 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/04 08:33:40 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:17:35 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern char **environ;
-
 
 t_export *populate_list(t_export *head)
 {
@@ -45,47 +44,6 @@ t_export *populate_list(t_export *head)
 	return head;
 }
 
-t_export *sort_list(t_export *head)
-{
-	t_export *slow;
-	t_export *fast;
-	t_export *head2;
-	t_export *left;
-	t_export *right;
-	
-	slow = head;
-	fast = head->next;
-	if (head == NULL || head->next == NULL)
-		return head;
-	while (fast != NULL && fast->next != NULL)
-	{
-		fast = fast->next->next;
-		slow = slow->next;
-	}
-	head2 = slow->next;
-	slow->next = NULL;
-	left = sort_list(head);
-	right = sort_list(head2);
-	return merged_sorted_list(left, right);
-}
-t_export *merged_sorted_list(t_export *head, t_export *head2)
-{
-	if (head == NULL)
-	return head2;
-	if (head2 == NULL)
-	return head;
-	if (ft_strcmp(head->data, head2->data) < 0)
-	{
-		head->next = merged_sorted_list(head->next, head2);
-		return head;
-	}
-	else 
-	{
-		head2->next = merged_sorted_list(head, head2->next);
-		return head2;
-	}
-}
-
 int export(void)
 {
     t_export *head;
@@ -103,7 +61,47 @@ int export(void)
 	free_list(head);
 	return 0;
 }
-
-
+int env(void)
+{
+	int i;
+	int j;
+	i = 0;
+	while (environ[i] != NULL)
+	{
+		j = 0;
+		while (environ[i][j] != '\0')
+		{
+			write(1, &environ[i][j], 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+	return 1;
+}
+int unset(char *str)
+{
+    int i;
+	i = 0;
+    if (getenv(str) == NULL)
+    {
+        printf("Error, environment variable not found\n");
+        return 0;
+    }
+    while (environ[i] != NULL)
+    {
+        if (ft_strncmp(environ[i], str, ft_strlen(str)) == 0 && environ[i][ft_strlen(str)] == '=')
+        {
+            while (environ[i] != NULL)
+            {
+                environ[i] = environ[i + 1];
+                i++;
+            }
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
 
 

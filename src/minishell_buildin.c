@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/01 13:34:08 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/04 10:05:10 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,8 @@ void build_in(t_data *p)
         echo(p, value);
      else if (ft_strcmp(p->cmd_args[0], "export") == 0)
         export();
+     else if (ft_strcmp(p->cmd_args[0], "env") == 0)
+     env();
+     else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
+     unset(p->cmd_args[1]);
 }
