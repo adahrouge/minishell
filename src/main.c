@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/01 08:57:22 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/05 13:06:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void free_allocated(t_data *p)
 	free(p);
 }
 
+
 void loop(t_data *p)
 {
     while (1)
@@ -43,8 +44,18 @@ void loop(t_data *p)
             continue;
         if (input_is_exit(p))
             break;
-		if (ft_strcmp(p->input, "clear") == 0)
-			printf("\033[H\033[J");
+		if (input_is_space(p))
+			continue;
+		if (input_is_redirect(p))
+			continue;
+		if (input_is_slash(p))
+			continue;
+		if (input_is_dash(p))
+			continue;
+		if (input_is_and(p))
+			continue;
+		if (input_is_clear(p))
+			continue;
         add_history(p->input);
         read_command_line(p);
         build_in(p);
