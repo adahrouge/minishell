@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/05 13:06:43 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:26:15 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	free_split(char **split);
 char	**ft_split(char const *s, char c);
 char	*word_dup(const char *str, int start, int finish);
 void pwd(t_data *p);
-int echo(t_data *p, int j);
+int echo(t_data *p, int i);
 int cd(t_data *p, int value);
 int input_is_null(t_data *p);
 int input_is_backslash(t_data *p);
@@ -79,6 +79,11 @@ int input_is_slash(t_data *p);
 int input_is_dash(t_data *p);
 int input_is_and(t_data *p);
 int input_is_clear(t_data *p);
-int check_echo(t_data *p);
+int echo_wrong(t_data *p);
+int write_echo(t_data *p, int i);
+int check_if_dollar(t_data *p);
+int echo_dollar(t_data *p);
+int set_up_tmp(t_data *p);
+
 
 #endif
