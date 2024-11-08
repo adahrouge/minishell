@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/05 13:06:57 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/08 20:25:16 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ void loop(t_data *p)
     while (1)
     {
         p->input = readline("minishell > ");
+		if (p->input == NULL)
+		{
+			printf("exit\n");
+			break;	
+			}
+		
+		if (p->input[0] == '\0')
+		{
+			free(p->input);
+			continue;
+		}
 		if (input_is_null(p))
 			break;
         if (input_is_backslash(p))
@@ -61,14 +72,13 @@ void loop(t_data *p)
         build_in(p);
 		free_split(p->cmd_args);
         free(p->input);
-    }
+	}
 }
 int main(int argc, char **argv)
 {
 	t_data *p;
 	
-	signal(SIGINT, sigint_handler);
-    	signal(SIGQUIT, sigquit_handler);
+	setup_signal_handlers();
 	if (argc != 1 && ft_strcmp(argv[0], "./minishell") != 0)
 		return 0;
 	p = malloc(sizeof(t_data));
