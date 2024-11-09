@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/08 20:13:05 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:54:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	free_split(char **split);
 char	**ft_split(char const *s, char c);
 char	*word_dup(const char *str, int start, int finish);
 void pwd(t_data *p);
-int echo(t_data *p);
 int cd(t_data *p, int value);
 int input_is_null(t_data *p);
 int input_is_backslash(t_data *p);
@@ -82,14 +81,7 @@ int input_is_slash(t_data *p);
 int input_is_dash(t_data *p);
 int input_is_and(t_data *p);
 int input_is_clear(t_data *p);
-int echo_wrong(t_data *p);
-//int write_echo(t_data *p, int i);
-//int check_if_dollar(t_data *p);
-//int echo_dollar(t_data *p, int i);
-//int set_up_tmp(t_data *p);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-//int print_echo_with_dollar(t_data *p);
-//int print_remaining(t_data *p, int x);
 int expand_variable(char *str, t_data *p);
 void process_argument(char *arg, t_data *p);
 int check_if_nb(char *arg);
@@ -97,7 +89,11 @@ int check_echo_input(t_data *p);
 char	*ft_strjoin(char const *s1, char const *s2);
 void newline_loop(void);
 int parse_echo_with_quotes(t_data *p);
+void dollar_and_quotations(char *arg);
 void echo_count_quotes(t_data *p, int *double_quotes, int *single_quotes);
 void setup_signal_handlers(void);
+int echo_with_n(t_data *p, int i);
+int echo(t_data *p);
+int echo_wrong(t_data *p);
 
 #endif 

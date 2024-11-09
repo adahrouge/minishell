@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/07 10:26:12 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:54:41 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,3 @@ void build_in(t_data *p)
         printf("bash: %s: command not found\n", p->cmd_args[0]);
 }
 
-int echo_wrong(t_data *p)
-{
-    if (p->cmd_args[1] == NULL)
-    {
-        write(1, "\n", 1);
-        return 1;
-    }
-    return 0;
-}
