@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/09 17:54:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:05:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,14 @@ typedef struct s_export
 	struct s_export *previous;
 	struct s_export *next;
 	char *data;
+	char *name;
+	char *value;
 } t_export;
 
-
+char	*ft_strdup(const char *s);
+char	*ft_strchr(char *str, int c);
+int	ft_isalnum(int c);
+int	ft_isalpha(int c);
 int ft_strlen(const char *str);
 int ft_strcmp(char *s1, char *s2);
 int	count_words(const char *str, char c);
@@ -70,7 +75,7 @@ t_export *merged_sorted_list(t_export *head, t_export *head2);
 t_export *sort_list(t_export *head);
 t_export *populate_list(t_export *head);
 void free_list(t_export *head);
-void print_exported_variables(t_export *tmp, int i);
+void print_variables(t_export *tmp, int i);
 int env(void);
 int	compare_chars(const char *s1, const char *s2, size_t n);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);

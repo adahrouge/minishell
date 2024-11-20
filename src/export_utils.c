@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:33:30 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/04 09:15:54 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:34:43 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void free_list(t_export *head)
 	{
 		temp = head;
 		free(head->data);
+		free(head->name);
+		free(head->value);
 		head = head->next;
 		free(temp);
 	}
 }
 
-void print_exported_variables(t_export *tmp, int i)
+void print_variables(t_export *tmp, int i)
 {
     while (tmp != NULL)
     {

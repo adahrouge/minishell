@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:07 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/08 18:23:02 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:19:01 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,64 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strcpy(ptr, s1);
 	ft_strcpy(ptr + len1, s2);
 	ptr[len1 + len2] = '\0';
+	return (ptr);
+}
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	{
+		return (1);
+	}
+	return (0);
+}
+int	ft_isalnum(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	{
+		return (1);
+	}
+	else if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
+}
+int ft_strchr(char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == (char)c)
+			return (i);
+		i++;
+	}
+	if (c == '\0')
+		return (i);
+	return (-1);
+}
+char	*ft_strdup(const char *s)
+{
+	int		j;
+	int		k;
+	int		length;
+	char	*ptr;
+
+	j = 0;
+	k = 0;
+	length = ft_strlen(s);
+	ptr = malloc(length + 1 * sizeof(char));
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+	while (s[j] != '\0')
+	{
+		ptr[k] = s[j];
+		k++;
+		j++;
+	}
+	ptr[k] = '\0';
 	return (ptr);
 }
