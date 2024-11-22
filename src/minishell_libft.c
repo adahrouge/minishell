@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:07 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/20 19:19:01 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:37:25 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int ft_strcmp(char *s1, char *s2)
 	}
 	return s1[i] - s2[i];
 }
-void	ft_strcpy(char *dest, const char *src)
+char *ft_strcpy(char *dest, const char *src)
 {
 	int	i;
 
@@ -35,6 +35,7 @@ void	ft_strcpy(char *dest, const char *src)
 		i++;
 	}
 	dest[i] = '\0';
+	return dest;
 }
 int ft_strlen(const char *str)
 {

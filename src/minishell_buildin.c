@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/20 17:04:01 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:11:48 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int cd(t_data *p, int value)
     return 1;
 }
 
-void build_in(t_data *p)
+void build_in(t_data *p, t_export **head)
 {
     int value;
 
@@ -65,12 +65,13 @@ void build_in(t_data *p)
     else if (ft_strcmp(p->cmd_args[0], "echo") == 0)
         echo(p);
      else if (ft_strcmp(p->cmd_args[0], "export") == 0)
-        export_main();
+        export_main(p, *head);
      else if (ft_strcmp(p->cmd_args[0], "env") == 0)
-        env();
+        env(*head);
      else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
-        unset(p->cmd_args[1]);
+        unset(p->cmd_args[1], head);
      else
         printf("bash: %s: command not found\n", p->cmd_args[0]);
+
 }
 

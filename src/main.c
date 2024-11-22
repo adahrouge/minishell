@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/08 20:25:16 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:33:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void free_allocated(t_data *p)
 }
 
 
-void loop(t_data *p)
+void loop(t_data *p, t_export *head)
 {
     while (1)
     {
@@ -43,7 +43,6 @@ void loop(t_data *p)
 			printf("exit\n");
 			break;	
 			}
-		
 		if (p->input[0] == '\0')
 		{
 			free(p->input);
@@ -69,22 +68,50 @@ void loop(t_data *p)
 			continue;
         add_history(p->input);
         read_command_line(p);
-        build_in(p);
+        build_in(p, &head);
 		free_split(p->cmd_args);
         free(p->input);
 	}
 }
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **environ)
 {
 	t_data *p;
-	
+	t_export *head;
+	char **my_environ;
+
+	my_environ = copy_environ(environ);
 	setup_signal_handlers();
 	if (argc != 1 && ft_strcmp(argv[0], "./minishell") != 0)
 		return 0;
 	p = malloc(sizeof(t_data));
 	if (!p)
 		return 0;
-	loop(p);
+	// head = malloc(sizeof(t_export));
+	// if (!head)
+	// 	return 0;
+	head = populate_list(my_environ);
+	if (!head)
+	{
+		free(p);
+		free_environ(my_environ);
+		return 0;
+	}
+	arrange_export(head);
+	loop(p, head);
 	free(p);
+	free_environ(my_environ);
+	free_list(head);
 	return (0);
+}
+int free_environ(char **my_environ)
+{
+	int i;
+	i = 0;
+	while (my_environ[i] != NULL)
+	{
+		free(my_environ[i]);
+		i++;
+	}
+	free(my_environ);
+	return 1;
 }
