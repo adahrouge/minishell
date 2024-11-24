@@ -6,28 +6,11 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:33:30 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/22 18:08:06 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:44:34 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void free_list(t_export *head)
-{
-	t_export *temp;
-	while (head != NULL)
-	{
-		temp = head;
-		if (head->data)
-			free(head->data);
-		if (head->name)
-			free(head->name);
-		if (head->value)
-			free(head->value);
-		head = head->next;
-		free(temp);
-	}
-}
 
 void print_variables(t_export *tmp, int i)
 {
@@ -96,5 +79,38 @@ t_export *merged_sorted_list(t_export *head, t_export *head2)
 	{
 		head2->next = merged_sorted_list(head, head2->next);
 		return head2;
+	}
+}
+int check_arg_export(char *arg)
+{
+	int i;
+	i = 1;
+	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
+	{
+		printf("error, invalid identifier\n");
+		return -1;
+	}
+	while (arg[i] != '\0' && arg[i] != '=')
+	{
+		if (!(ft_isalnum(arg[i]) || arg[i] == '_'))
+		{
+			printf("export : '%s\n' : not a valid identifier", arg);
+			return -1;
+		}
+		i++;
+	}
+	return 1;
+}
+void free_new_node(t_export *newnode)
+{
+	if (newnode)
+	{
+		if (newnode->name)
+			free(newnode->name);
+		if (newnode->value)
+			free(newnode->value);
+		if (newnode->data)
+			free(newnode->data);
+		free(newnode);
 	}
 }

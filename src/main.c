@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/22 18:33:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:42:18 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void free_allocated(t_data *p)
 }
 
 
-void loop(t_data *p, t_export *head)
+void loop(t_data *p, t_export **head)
 {
     while (1)
     {
@@ -68,7 +68,7 @@ void loop(t_data *p, t_export *head)
 			continue;
         add_history(p->input);
         read_command_line(p);
-        build_in(p, &head);
+        build_in(p, head);
 		free_split(p->cmd_args);
         free(p->input);
 	}
@@ -86,9 +86,6 @@ int main(int argc, char **argv, char **environ)
 	p = malloc(sizeof(t_data));
 	if (!p)
 		return 0;
-	// head = malloc(sizeof(t_export));
-	// if (!head)
-	// 	return 0;
 	head = populate_list(my_environ);
 	if (!head)
 	{
@@ -97,7 +94,7 @@ int main(int argc, char **argv, char **environ)
 		return 0;
 	}
 	arrange_export(head);
-	loop(p, head);
+	loop(p, &head);
 	free(p);
 	free_environ(my_environ);
 	free_list(head);

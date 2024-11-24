@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/22 18:26:04 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:37:27 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	count_words(const char *str, char c);
 void free_allocated(t_data *p);
 char *ft_strcpy(char *dest, const char *src);
 void build_in(t_data *p, t_export **head);
-void loop(t_data *p, t_export *head);
+void loop(t_data *p, t_export **head);
 void read_command_line(t_data *p);
 void sigint_handler(int signum);
 void sigquit_handler(int signum);
@@ -95,11 +95,13 @@ int echo(t_data *p);
 int echo_wrong(t_data *p);
 
 int export(t_export *head);
-int export_main(t_data *p, t_export *head);
+int export_main(t_data *p, t_export **head);
 int unset(char *str, t_export **head);
 t_export *merged_sorted_list(t_export *head, t_export *head2);
 t_export *sort_list(t_export *head);
 t_export *populate_list(char **environ);
+t_export *create_my_list(char **environ, int i);
+void check_for_populate(t_export **head, t_export **ptr, t_export *newnode);
 void free_list(t_export *head);
 void print_variables(t_export *tmp, int i);
 int env(t_export *head);
@@ -115,8 +117,9 @@ int update_arg_in_list(char *var_name, char *var_value, t_export **head_ref);
 void free_new_node(t_export *newnode);
 t_export *create_node(char *var_name, char *var_value);
 int check_arg_export(char *arg);
-void free_list_aft_export(t_export *head);
 int free_environ(char **my_environ);
+int modify_value(t_export *temp, char *var_value);
+int ft_unset_all(char *input, t_export **head);
 
 
 #endif 
