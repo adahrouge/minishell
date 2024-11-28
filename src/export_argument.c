@@ -6,14 +6,14 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:39:49 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/24 15:40:27 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/28 07:53:47 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void process_export_args(char *arg, t_export **head)
+int process_export_args(char *arg, t_export **head)
 {
 	int i;
 	int flag;
@@ -21,7 +21,7 @@ void process_export_args(char *arg, t_export **head)
 	flag = 0;
 	i = 0;
 	if (!(check_arg_export(arg)))
-		return ;
+		return -1;
 	while (arg[i] != '\0')
 	{
 		if (arg[i] == '=')
@@ -32,6 +32,7 @@ void process_export_args(char *arg, t_export **head)
 		process_export_empty_arg(arg, head);
 	else
 		process_export_full_arg(arg, head);
+	return 1;
 }
 void process_export_empty_arg(char *arg, t_export **head)
 {

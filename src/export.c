@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:45:57 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/24 15:42:27 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:19:47 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int env(t_export *head)
 	t_export *tmp;
 
 	tmp = head;
-	while (tmp != NULL)
+	while (tmp != NULL && tmp->value != NULL)
 	{
 	printf("%s\n", tmp->data);
 	tmp = tmp->next;
@@ -60,7 +60,7 @@ int unset(char *str, t_export **head)
 		prev = tmp;
 		tmp = tmp->next;
 	}
-	printf("Error, environment variable not found\n");
+		printf("bash: unset: %s: not a valid identifier\n", str);
 	return 0;
 }
 int export(t_export *head)
@@ -74,7 +74,7 @@ int export(t_export *head)
 	return 0;
 }
 
-int export_main(t_data *p, t_export **head)
+void export_main(t_data *p, t_export **head)
 {
 	int i;
 	*head = sort_list(*head);
@@ -89,7 +89,7 @@ int export_main(t_data *p, t_export **head)
 			i++;
 		}
 	}
-	return 1;
+	return ;
 }
 
 
