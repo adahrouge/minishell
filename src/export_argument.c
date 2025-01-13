@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:39:49 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/28 07:53:47 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:12:51 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int process_export_args(char *arg, t_export **head)
 	flag = 0;
 	i = 0;
 	if (!(check_arg_export(arg)))
-		return -1;
+		return 1;
 	while (arg[i] != '\0')
 	{
 		if (arg[i] == '=')
@@ -32,7 +32,7 @@ int process_export_args(char *arg, t_export **head)
 		process_export_empty_arg(arg, head);
 	else
 		process_export_full_arg(arg, head);
-	return 1;
+	return 0;
 }
 void process_export_empty_arg(char *arg, t_export **head)
 {

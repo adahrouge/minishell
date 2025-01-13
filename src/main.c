@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/24 14:42:18 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/13 13:00:54 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void loop(t_data *p, t_export **head)
 			continue;
 		if (input_is_clear(p))
 			continue;
+		if (input_contains_pipe(p))
+			minishell_pipe(p);
         add_history(p->input);
         read_command_line(p);
         build_in(p, head);

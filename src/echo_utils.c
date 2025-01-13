@@ -6,13 +6,13 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 12:23:59 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/28 12:24:49 by adahroug         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:58:11 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int handle_quotations(char *arg)
+int handle_quotations(char *arg, t_export *head)
 {
     if (arg[0] == '\'')
     {
@@ -20,7 +20,7 @@ int handle_quotations(char *arg)
     }
     else if (arg[0] == '"')
     {
-        return handle_double_quotes(arg);
+        return handle_double_quotes(arg, head);
     }
     return 1;
 }
@@ -37,7 +37,7 @@ int handle_single_quotes(char *arg)
 		i++;
 	return i;
 }
-int handle_double_quotes(char *arg)
+int handle_double_quotes(char *arg, t_export *head)
 {
 	int i;
 	int consumed;
@@ -48,7 +48,7 @@ int handle_double_quotes(char *arg)
 		if (arg[i] == '$')
 		{
 			i++;
-			consumed = expand_variable(&arg[i]);
+			consumed = expand_variable(&arg[i], head);
 			i = i + consumed;
 			continue;
 		}
@@ -79,7 +79,7 @@ int check_echo(char *arg)
 	}
 	return 1;
 }
-int expand_variable(char *arg)
+int expand_variable(char *arg, t_export *head)
 {
     int i;
     char var_name[256];
@@ -94,11 +94,12 @@ int expand_variable(char *arg)
             arg[i] == '_')
         var_name[var_len++] = arg[i++];
     var_name[var_len] = '\0';
-    value = getenv(var_name);
+    value = my_getenv(var_name, head);
     if (value)
         write(1, value, ft_strlen(value));
     return i;
 }
+
 
 
 //the variables in export should be the same of the echo

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:07 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/28 08:03:25 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/13 12:29:28 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,17 @@ char	*ft_strdup(const char *s)
 	}
 	ptr[k] = '\0';
 	return (ptr);
+}
+
+void ft_putstr_fd(char *s, int fd)
+{
+	int i;
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:45:57 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/28 12:19:47 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:15:07 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int env(t_export *head)
 	printf("%s\n", tmp->data);
 	tmp = tmp->next;
 	}
-	return 1;
+	return 0;
 }
 char *my_getenv(char *name, t_export *head)
 {
@@ -74,13 +74,13 @@ int export(t_export *head)
 	return 0;
 }
 
-void export_main(t_data *p, t_export **head)
+int export_main(t_data *p, t_export **head)
 {
 	int i;
 	*head = sort_list(*head);
 	i = 1;
 	if (ft_strcmp(p->input, "export") == 0 && p->cmd_args[1] == NULL)
-		export(*head);
+		p->exit_code = export(*head);
 	else
 	{
 		while (p->cmd_args[i] != NULL)
@@ -89,7 +89,7 @@ void export_main(t_data *p, t_export **head)
 			i++;
 		}
 	}
-	return ;
+	return 0;
 }
 
 

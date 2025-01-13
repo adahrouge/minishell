@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/28 12:29:02 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/13 13:02:29 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <limits.h>
 #include <signal.h>
 #include <stddef.h>
+#include <fcntl.h>
+# define STDERR 2
 
 
 typedef struct s_data
@@ -35,10 +37,19 @@ typedef struct s_data
 	int pipe_count;
 	int command_count;
 	char *value;
-	
+	int exit_code;
 	
 } t_data;
 
+
+// typedef struct s_sig
+// {
+// 	pid_t pid;
+// 	int sigint;
+// 	int sigquit;
+// }	t_sig;
+
+//extern t_sig global_signal;
 
 typedef struct s_export
 {
@@ -49,11 +60,11 @@ typedef struct s_export
 	char *value;
 } t_export;
 
-//main functions + buildins
+//main functions + builtins
 void build_in(t_data *p, t_export **head);
 void loop(t_data *p, t_export **head);
 void read_command_line(t_data *p);
-void pwd(t_data *p);
+int pwd(t_data *p);
 int cd(t_data *p, int value);
 
 //signals
@@ -71,6 +82,8 @@ int input_is_slash(t_data *p);
 int input_is_dash(t_data *p);
 int input_is_and(t_data *p);
 int input_is_clear(t_data *p);
+int input_contains_pipe(t_data *p);
+
 
 //lib_ft
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -87,21 +100,23 @@ int	count_words(const char *str, char c);
 char *ft_strcpy(char *dest, const char *src);
 char	**ft_split(char const *s, char c);
 char	*word_dup(const char *str, int start, int finish);
+void ft_putstr_fd(char *s, int fd);
+
 
 
 //echo
-int echo(t_data *p);
+int echo(t_data *p, t_export *head);
 int check_echo(char *arg);
-void parse_echo(char *arg);
-int handle_dollar(char *arg);
-int handle_quotations(char *arg);
+void parse_echo(char *arg, t_export *head);
+int handle_dollar(char *arg, t_export *head);
+int handle_quotations(char *arg, t_export *head);
 int handle_single_quotes(char *arg);
-int handle_double_quotes(char *arg);
-int expand_variable(char *arg);
+int handle_double_quotes(char *arg, t_export *head);
+int expand_variable(char *arg, t_export *head);
 
 //export env unset
 int export(t_export *head);
-void export_main(t_data *p, t_export **head);
+int export_main(t_data *p, t_export **head);
 int unset(char *str, t_export **head);
 t_export *merged_sorted_list(t_export *head, t_export *head2);
 t_export *sort_list(t_export *head);
@@ -130,5 +145,7 @@ int ft_unset_all(char *input, t_export **head);
 //free
 void free_allocated(t_data *p);
 void	free_split(char **split);
+
+
 
 #endif 

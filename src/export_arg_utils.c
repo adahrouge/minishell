@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:41:37 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/24 15:42:15 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:15:36 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int ft_unset_all(char *input, t_export **head)
         while (input[i] == ' ') 
             i++;
     }
-    return 1;
+    return 0;
 }
 
 int modify_value(t_export *temp, char *var_value)
