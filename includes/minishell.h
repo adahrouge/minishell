@@ -6,13 +6,14 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/13 13:02:29 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:57:32 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 #include <stdio.h>
+#include <sys/wait.h>
 #include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -38,7 +39,8 @@ typedef struct s_data
 	int command_count;
 	char *value;
 	int exit_code;
-	
+	int **pipefd;
+	char **cmds_pipe;
 } t_data;
 
 
@@ -98,7 +100,7 @@ int ft_strlen(const char *str);
 int ft_strcmp(char *s1, char *s2);
 int	count_words(const char *str, char c);
 char *ft_strcpy(char *dest, const char *src);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *s, char c);
 char	*word_dup(const char *str, int start, int finish);
 void ft_putstr_fd(char *s, int fd);
 
@@ -142,10 +144,38 @@ int free_environ(char **my_environ);
 int modify_value(t_export *temp, char *var_value);
 int ft_unset_all(char *input, t_export **head);
 
+
+//execution
+void external_commands(t_data *p, t_export *head);
+void execute_command(char *full_path, t_data *p, t_export *head);
+char *create_full_path(t_data *p, char **new_paths);
+void copy_paths(char **paths, char **new_paths);
+char **create_new_path(char **paths);
+
+
+//pipes
+char **parse_pipes(t_data *p);
+int **create_pipes(t_data *p, int num_commands);
+void first_command(t_data *p, int *i);
+void middle_commands(t_data *p, int *i);
+void last_command(t_data *p, int *i);
+void create_fork(t_data *p, int num_commands, t_export *head);
+void execute_command_pipes(t_data *p, int *i, t_export *head);
+char **convert_list_to_array(t_export *head);
+void minishell_pipes(t_data *p, t_export *head);
+
+
+
+
+
+
+
+
 //free
 void free_allocated(t_data *p);
 void	free_split(char **split);
-
-
+void free_2d_array(char **array);
+void free_pipe(t_data *p, int num_commands);
+void free_already_allocated(char **new_paths, int len);
 
 #endif 

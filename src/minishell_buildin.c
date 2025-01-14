@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/13 12:59:58 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:54:15 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ void build_in(t_data *p, t_export **head)
         p->exit_code = env(*head);
      else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
         p->exit_code = ft_unset_all(p->input, head);
-     else
+     else //HANDLE THE EXTERNAL COMMANDS : LS / RM -RF ....
      {
-        printf("bash: %s: command not found\n", p->cmd_args[0]);
-        p->exit_code = 127;
+        external_commands(p, *head);
+        // printf("bash: %s: command not found\n", p->cmd_args[0]);
+        // p->exit_code = 127;
      }
 }
 

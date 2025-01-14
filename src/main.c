@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/13 13:00:54 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:45:59 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void free_allocated(t_data *p)
 	free(p->input);
 	free(p);
 }
-
 
 void loop(t_data *p, t_export **head)
 {
@@ -67,7 +66,7 @@ void loop(t_data *p, t_export **head)
 		if (input_is_clear(p))
 			continue;
 		if (input_contains_pipe(p))
-			minishell_pipe(p);
+			minishell_pipes(p, *head);
         add_history(p->input);
         read_command_line(p);
         build_in(p, head);

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:23:36 by adahroug          #+#    #+#             */
-/*   Updated: 2024/10/31 08:42:02 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:48:52 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*word_dup(const char *str, int start, int finish)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	int		i;
 	int		j;
@@ -84,3 +84,5 @@ void	free_split(char **split)
 		free(split[i++]);
 	free(split);
 }
+
+
