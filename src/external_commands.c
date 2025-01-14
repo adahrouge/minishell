@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/14 11:57:05 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:52:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void external_commands(t_data *p, t_export *head)
 	char **new_paths;
 	char *full_path;
 
-	path_env = getenv("PATH");
+	path_env = my_getenv("PATH", head);
 	if (!path_env)
 		return ;
 	paths = ft_split(path_env, ':');
@@ -61,14 +61,20 @@ void execute_command(char *full_path, t_data *p, t_export *head)
 	}
 	else if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
+		if (waitpid(pid, &status, 0) == -1)
+			p->exit_code = 1;
+		else 
 		if (WIFEXITED(status))
 			p->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			p->exit_code = 128 + WTERMSIG(status);
 		free(full_path);
 	}
 	else
+	{
 		free(full_path);
-	p->exit_code = 1;
+		p->exit_code = 1;	
+	}
 	free_2d_array(envp);
 }
 char *create_full_path(t_data *p, char **new_paths)
@@ -123,7 +129,7 @@ char **create_new_path(char **paths)
 	len = 0;
 	while (paths[i] != NULL)
 		i++;
-	new_paths = malloc((i + 1) * sizeof(char *)); // must free
+	new_paths = malloc((i + 1) * sizeof(char *)); 
 	if (!new_paths)
 		return NULL;
 	i = 0;
@@ -138,6 +144,7 @@ char **create_new_path(char **paths)
 		}
 		i++;
 	}
+	new_paths[i] = NULL;
 	return new_paths;
 }
 
