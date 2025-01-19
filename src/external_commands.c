@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/14 14:52:57 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:40:56 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void execute_command(char *full_path, t_data *p, t_export *head)
 	}
 	free_2d_array(envp);
 }
+
 char *create_full_path(t_data *p, char **new_paths)
 {
 	int i;
@@ -93,10 +94,11 @@ char *create_full_path(t_data *p, char **new_paths)
 		if (access(full_path, X_OK) == 0)
 			return full_path;
 			else
-			free(full_path);
+			free(full_path); // maybe should return NULL directly in the else
 		i++;
 	}
-	return NULL;
+	return NULL; //full_path : quand tu ajoutes la commande a la fin
+				// example : /usr/bin/ls (avec le ls)
 }
 
 void copy_paths(char **paths, char **new_paths)
@@ -146,6 +148,39 @@ char **create_new_path(char **paths)
 	}
 	new_paths[i] = NULL;
 	return new_paths;
+}
+char **convert_list_to_array(t_export *head)
+{
+	int i;
+	char **envp;
+	t_export *ptr;
+
+	ptr = head;
+	i = 0;
+	while (ptr != NULL) // do a function for the length for norminette
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	envp = malloc((i + 1) * sizeof(char *)); 
+	if (!envp)
+		return NULL;
+	ptr = head;
+	i = 0;
+	while (ptr != NULL)
+	{
+		envp[i] = malloc((ft_strlen(ptr->data) + 1) * sizeof(char));
+		if (!envp[i])
+		{
+			free_2d_array(envp);
+			return NULL;
+		}
+		ft_strcpy(envp[i], ptr->data);
+		ptr = ptr->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return envp;
 }
 
 

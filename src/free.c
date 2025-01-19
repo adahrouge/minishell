@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 22:31:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/14 10:34:23 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:57:50 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void free_pipe(t_data *p, int size)
 	if (!p || !p->pipefd)
 		return ;
 	i = 0;
-	while (i < size - 1)
+	while (i < size)
 	{
 		if (p->pipefd[i])
 			free(p->pipefd[i]);

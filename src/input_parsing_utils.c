@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:39:44 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/13 13:18:25 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:35:42 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,19 @@ int input_is_clear(t_data *p)
 int input_contains_pipe(t_data *p)
 {
 	int i;
-	int counter;
+	int in_quotes;
 
-	counter = 0;
+	in_quotes = 0;
 	i = 0;
 	while (p->input[i] != '\0')
 	{
-		if (p->input[i] == '|')
-			counter++;
+		if (in_quotes == 0 && (p->input[i] == '\'' || p->input[i] == '"'))
+			in_quotes = 1;
+		else if (in_quotes == 1 && (p->input[i] == '\'' || p->input[i] == '"'))
+			in_quotes = 0;
+		else if (p->input[i] == '|' && in_quotes == 0)
+			return 1;
 		i++;
 	}
-	if (counter > 0)
-		return 1;
 	return 0;
 }

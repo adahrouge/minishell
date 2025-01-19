@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:23:36 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/13 22:48:52 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:10:55 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ char	**ft_split(char *s, char c)
 	split[j] = 0;
 	return (split);
 }
+
+
+
 void	free_split(char **split)
 {
 	int i = 0;

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/14 11:57:32 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:51:14 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ typedef struct s_data
 	int exit_code;
 	int **pipefd;
 	char **cmds_pipe;
+	int nb_of_pipes;
+	char **store_pipe_arg;
+	int arg_count_pipes;
+	int num_commands;
+	char *full_path_pipe;
+	char **pipe_args;
+	char *correct_path;
+	char *command_name;
 } t_data;
 
 
@@ -154,22 +162,29 @@ char **create_new_path(char **paths);
 
 
 //pipes
-char **parse_pipes(t_data *p);
-int **create_pipes(t_data *p, int num_commands);
-void first_command(t_data *p, int *i);
-void middle_commands(t_data *p, int *i);
-void last_command(t_data *p, int *i);
-void create_fork(t_data *p, int num_commands, t_export *head);
-void execute_command_pipes(t_data *p, int *i, t_export *head);
+
+void create_pipes(t_data *p);
+void first_command(t_data *p, int i);
+void middle_commands(t_data *p, int i);
+void last_command(t_data *p, int i);
+void create_fork(t_data *p, t_export *head, int *i);
+void execute_command_pipes(t_data *p, t_export *head, int i);
 char **convert_list_to_array(t_export *head);
-void minishell_pipes(t_data *p, t_export *head);
+//void minishell_pipes(t_data *p, t_export *head);
+void parse_pipe_arg(t_data *p);
+void create_pipe_arg(t_data *p);
+void create_single_arg(t_data *p, int *len, int *count, int start);
+void trim_whitespaces(char *str);
+void trim_pipe_args(t_data *p);
+char *create_full_path_pipe(t_data *p, char **new_paths, int *i);
+char *create_path_pipes(t_data *p, t_export *head, int i);
+char *parse_command(t_data *p, int i);
+void parse_pipe_args(t_data *p);
+void pipes(t_data *p, t_export *head);
+//debug
 
-
-
-
-
-
-
+			
+				
 
 //free
 void free_allocated(t_data *p);
