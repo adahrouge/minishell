@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:22:29 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/19 15:30:32 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:45:38 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,28 @@ void trim_pipe_args(t_data *p)
 	while (p->store_pipe_arg[i] != NULL)
 	{
 		trim_whitespaces(p->store_pipe_arg[i]);
+		remove_all_quotes_pipes(p->store_pipe_arg[i]);
 		i++;
 	}
+}
+void remove_all_quotes_pipes(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		if (str[i] != '"' && str[i] != '\'')
+		{
+			str[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
 }
 

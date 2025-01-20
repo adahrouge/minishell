@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/19 16:12:02 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:39:24 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,63 +45,86 @@ void create_pipes(t_data *p)
 
 void pipes(t_data *p, t_export *head)
 {
-    parse_pipe_args(p);  // fill p->store_pipe_arg
-    create_pipes(p);     // create p->pipefd
+    p->full_path_pipe = NULL;
+    parse_pipes(p);                // sets p->store_pipe_arg, p->num_commands
+    create_pipes(p);               // creates p->nb_of_pipes = p->num_commands - 1 pipes
+
+    // Instead of forking and waiting in the same loop,
+    // we do two loops: 
+    //  (A) Fork all children
+    //  (B) Wait for them
+
+    // Let's store child PIDs in an array
+    pid_t *pids = malloc(sizeof(pid_t) * p->num_commands);
+    if (!pids)
+        exit(EXIT_FAILURE);
+
+    // 1) Fork each command
     for (int i = 0; i < p->num_commands; i++)
     {
-        // Build the correct_path for the current command
-        create_path_pipes(p, head, i); 
-        // Now p->correct_path may be set (or NULL if not found)
-
-        pid_t pid = fork();
-        if (pid < 0)
+        pids[i] = fork();
+        if (pids[i] < 0)
         {
             perror("fork failed");
             exit(EXIT_FAILURE);
         }
-        else if (pid == 0) // Child
+        else if (pids[i] == 0)  // Child
         {
-            // Depending on i, set up pipes
-            if (i == 0)
+            // Hook up pipes (child side)
+            if (i == 0)               // first command
                 first_command(p, i);
-            else if (i == p->num_commands - 1)
+            else if (i == p->num_commands - 1) // last
                 last_command(p, i);
             else
                 middle_commands(p, i);
 
+            // Build path + execve
+            create_path_pipes(p, head, i);
             execute_command_pipes(p, head, i);
         }
         else // Parent
         {
-            waitpid(pid, NULL, 0);
-            // Close the previous pipe endpoints
-            if (i > 0)
+            // IMPORTANT: Do NOT wait here
+            // Instead, just close the parent's copy
+            // of pipe ends that won't be used.
+            if (i == 0)
             {
-                close(p->pipefd[i - 1][0]);
-                close(p->pipefd[i - 1][1]);
+                // parent doesn't need pipefd[0][1] after child has it
+                if (p->num_commands > 1)
+                    close(p->pipefd[0][1]);
             }
-            // Free p->correct_path for this command
-            // since we won't need it next iteration
-            if (p->correct_path)
+            else if (i < p->num_commands - 1)
             {
-                free(p->correct_path);
-                p->correct_path = NULL;
+                // middle command, close pipefd[i][1] in parent
+                close(p->pipefd[i][1]);
+                // also close pipefd[i-1][0] if still open
+            }
+            else
+            {
+                // last command
+                close(p->pipefd[i-1][0]);
             }
         }
     }
+
+    // 2) After forking all commands, do a loop to wait for each
+    for (int i = 0; i < p->num_commands; i++)
+        waitpid(pids[i], NULL, 0);
+
+    free(pids);
+
+    // Then do your cleanup
     free_pipe(p, p->nb_of_pipes);
     free_2d_array(p->store_pipe_arg);
-
-    // If you had any leftover p->full_path_pipe, free it
     if (p->full_path_pipe)
     {
         free(p->full_path_pipe);
         p->full_path_pipe = NULL;
     }
+    free(p->input);
 }
 
-
-void parse_pipe_args(t_data *p)
+void parse_pipes(t_data *p)
 {
 	parse_pipe_arg(p);
 	create_pipe_arg(p);

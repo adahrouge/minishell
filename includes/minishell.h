@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/19 15:51:14 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:42:28 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,10 +176,10 @@ void create_pipe_arg(t_data *p);
 void create_single_arg(t_data *p, int *len, int *count, int start);
 void trim_whitespaces(char *str);
 void trim_pipe_args(t_data *p);
-char *create_full_path_pipe(t_data *p, char **new_paths, int *i);
 char *create_path_pipes(t_data *p, t_export *head, int i);
 char *parse_command(t_data *p, int i);
-void parse_pipe_args(t_data *p);
+void parse_pipes(t_data *p);
+void remove_all_quotes_pipes(char *str);
 void pipes(t_data *p, t_export *head);
 //debug
 
