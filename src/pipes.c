@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/20 21:39:24 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:35:51 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void create_pipes(t_data *p)
 
 	p->pipefd = malloc(sizeof(int *) * (p->nb_of_pipes)); //have to free
 	if (!p->pipefd)
-	{
-		perror("malloc failed for p->pipefd");
 		exit(EXIT_FAILURE);
-	}
 	i = 0;
 	while (i < p->nb_of_pipes)
 	{
@@ -42,80 +39,82 @@ void create_pipes(t_data *p)
 	}
 	return ;
 }
-
 void pipes(t_data *p, t_export *head)
 {
-    p->full_path_pipe = NULL;
-    parse_pipes(p);                // sets p->store_pipe_arg, p->num_commands
-    create_pipes(p);               // creates p->nb_of_pipes = p->num_commands - 1 pipes
-
-    // Instead of forking and waiting in the same loop,
-    // we do two loops: 
-    //  (A) Fork all children
-    //  (B) Wait for them
-
-    // Let's store child PIDs in an array
-    pid_t *pids = malloc(sizeof(pid_t) * p->num_commands);
-    if (!pids)
+    pipe_prepare(p);
+    pipe_fork_loop(p, head);
+    pipe_wait_loop(p);
+    pipe_cleanup(p);
+}
+void pipe_prepare(t_data *p)
+{
+    parse_pipes(p);
+    create_pipes(p);
+    p->pids = malloc(sizeof(pid_t) * p->num_commands);
+    if (!p->pids)
         exit(EXIT_FAILURE);
+}
+void handle_child(t_data *p, t_export *head, int i)
+{
+    if (i == 0 && p->num_commands > 1)
+        first_command(p, i);
+    else if (i == p->num_commands - 1)
+        last_command(p, i);
+    else
+        middle_commands(p, i);
 
-    // 1) Fork each command
-    for (int i = 0; i < p->num_commands; i++)
+    create_path_pipes(p, head, i);
+    execute_command_pipes(p, head, i);
+}
+void handle_parent(t_data *p, int i)
+{
+    if (i == 0 && p->num_commands > 1)
+        close(p->pipefd[0][1]);
+    else if (i < p->num_commands - 1)
+        close(p->pipefd[i][1]);
+    else if (i > 0)
+        close(p->pipefd[i - 1][0]);
+}
+void pipe_fork_loop(t_data *p, t_export *head)
+{
+    int i;
+
+    i = 0;
+    while (i < p->num_commands)
     {
-        pids[i] = fork();
-        if (pids[i] < 0)
+        p->pids[i] = fork();
+        if (p->pids[i] < 0)
         {
             perror("fork failed");
             exit(EXIT_FAILURE);
         }
-        else if (pids[i] == 0)  // Child
+        else if (p->pids[i] == 0)
+            handle_child(p, head, i);
+        else
         {
-            // Hook up pipes (child side)
-            if (i == 0)               // first command
-                first_command(p, i);
-            else if (i == p->num_commands - 1) // last
-                last_command(p, i);
-            else
-                middle_commands(p, i);
-
-            // Build path + execve
-            create_path_pipes(p, head, i);
-            execute_command_pipes(p, head, i);
+            handle_parent(p, i);
+            p->full_path_pipe = NULL;
         }
-        else // Parent
-        {
-            // IMPORTANT: Do NOT wait here
-            // Instead, just close the parent's copy
-            // of pipe ends that won't be used.
-            if (i == 0)
-            {
-                // parent doesn't need pipefd[0][1] after child has it
-                if (p->num_commands > 1)
-                    close(p->pipefd[0][1]);
-            }
-            else if (i < p->num_commands - 1)
-            {
-                // middle command, close pipefd[i][1] in parent
-                close(p->pipefd[i][1]);
-                // also close pipefd[i-1][0] if still open
-            }
-            else
-            {
-                // last command
-                close(p->pipefd[i-1][0]);
-            }
-        }
+        i++;
     }
+}
+void pipe_wait_loop(t_data *p)
+{
+    int j;
 
-    // 2) After forking all commands, do a loop to wait for each
-    for (int i = 0; i < p->num_commands; i++)
-        waitpid(pids[i], NULL, 0);
-
-    free(pids);
-
-    // Then do your cleanup
+    j = 0;
+    while (j < p->num_commands)
+    {
+        waitpid(p->pids[j], NULL, 0);
+        j++;
+    }
+}
+void pipe_cleanup(t_data *p)
+{
+    free(p->pids);
     free_pipe(p, p->nb_of_pipes);
     free_2d_array(p->store_pipe_arg);
+
     if (p->full_path_pipe)
     {
         free(p->full_path_pipe);
@@ -123,6 +122,8 @@ void pipes(t_data *p, t_export *head)
     }
     free(p->input);
 }
+
+
 
 void parse_pipes(t_data *p)
 {

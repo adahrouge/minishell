@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:22:29 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/20 21:45:38 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:22:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,50 +38,52 @@ void parse_pipe_arg(t_data *p)
 			exit(EXIT_FAILURE);
 		}
 }
-
+void handle_quotes_pipes(char c, int *in_quotes)
+{
+	if (!*in_quotes && (c == '\'' || c == '"'))
+		*in_quotes = 1;
+	else if ((*in_quotes == 1) && (c == '\'' || c == '"'))
+		*in_quotes = 0;
+}
+void handle_pipe(t_data *p, int *len, int *count, int *i)
+{
+	if (*len > 0)
+	{
+		create_single_arg(p, len, count, *i - *len);
+		(*count)++;
+	}
+	(*i)++;
+	*len = 0;
+}
 void create_pipe_arg(t_data *p)
 {
-    int i = 0;
-    int in_quotes = 0;
-    int len = 0;        // how many chars we have in current segment
-    int count = 0;      // index for p->store_pipe_arg
+    int i;
+    int in_quotes;
+    int len;
+    int count;     
 
+	i = 0;
+	in_quotes = 0;
+	len = 0;
+	count = 0;
     while (p->input[i] != '\0')
     {
-        // Track quotes
-        if (!in_quotes && (p->input[i] == '\'' || p->input[i] == '"'))
-            in_quotes = 1;
-        else if (in_quotes && (p->input[i] == '\'' || p->input[i] == '"'))
-            in_quotes = 0;
-        // If we see a pipe outside quotes, that's the end of one segment
+		handle_quotes_pipes(p->input[i], &in_quotes);
         if (!in_quotes && p->input[i] == '|')
-        {
-            // Create substring from [i - len, i) (exclude the pipe char itself)
-            if (len > 0)
-            {
-                create_single_arg(p, &len, &count, i - len);
-                count++;
-            }
-            // Skip the pipe char
-            i++;
-            len = 0;
-        }
+			handle_pipe(p, &len, &count, &i);
         else
         {
             len++;
             i++;
         }
     }
-    // Handle the final chunk after the last pipe
     if (len > 0)
     {
         create_single_arg(p, &len, &count, i - len);
         count++;
     }
-
     p->store_pipe_arg[count] = NULL; 
 }
-
 
 void create_single_arg(t_data *p, int *len, int *count, int start)
 {
@@ -95,6 +97,7 @@ void create_single_arg(t_data *p, int *len, int *count, int start)
         p->store_pipe_arg[*count][i] = p->input[start + i];
 
     p->store_pipe_arg[*count][*len] = '\0';
+	p->store_pipe_arg[*count + 1] = NULL;
 }
 
 void trim_whitespaces(char *str)

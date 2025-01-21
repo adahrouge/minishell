@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/20 21:42:28 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:17:38 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	char **pipe_args;
 	char *correct_path;
 	char *command_name;
+	int *pids;
 } t_data;
 
 
@@ -170,21 +171,30 @@ void last_command(t_data *p, int i);
 void create_fork(t_data *p, t_export *head, int *i);
 void execute_command_pipes(t_data *p, t_export *head, int i);
 char **convert_list_to_array(t_export *head);
-//void minishell_pipes(t_data *p, t_export *head);
 void parse_pipe_arg(t_data *p);
 void create_pipe_arg(t_data *p);
 void create_single_arg(t_data *p, int *len, int *count, int start);
 void trim_whitespaces(char *str);
 void trim_pipe_args(t_data *p);
-char *create_path_pipes(t_data *p, t_export *head, int i);
+// char *create_path_pipes(t_data *p, t_export *head, int i);
 char *parse_command(t_data *p, int i);
 void parse_pipes(t_data *p);
 void remove_all_quotes_pipes(char *str);
 void pipes(t_data *p, t_export *head);
+void handle_pipe(t_data *p, int *len, int *count, int *i);
+void handle_quotes_pipes(char c, int *in_quotes);
+int check_cmd_name_valid(t_data *p, int cmd_index, char **cmd_name);
+char **build_paths_and_newpaths(char *path_env, char *cmd_name);
+char *search_executable(t_data *p, char **new_paths, char *cmd_name);
+int build_full_path(t_data *p, char *dir, char *cmd);
+char *create_path_pipes(t_data *p, t_export *head, int cmd_index);
+void pipe_prepare(t_data *p);
+void handle_child(t_data *p, t_export *head, int i);
+void handle_parent(t_data *p, int i);
+void pipe_fork_loop(t_data *p, t_export *head);
+void pipe_wait_loop(t_data *p);
+void pipe_cleanup(t_data *p);
 //debug
-
-			
-				
 
 //free
 void free_allocated(t_data *p);
