@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/21 19:35:51 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:19:24 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,7 @@ void create_pipes(t_data *p)
 	}
 	return ;
 }
-void pipes(t_data *p, t_export *head)
-{
-    pipe_prepare(p);
-    pipe_fork_loop(p, head);
-    pipe_wait_loop(p);
-    pipe_cleanup(p);
-}
+
 void pipe_prepare(t_data *p)
 {
     parse_pipes(p);
@@ -54,27 +48,7 @@ void pipe_prepare(t_data *p)
     if (!p->pids)
         exit(EXIT_FAILURE);
 }
-void handle_child(t_data *p, t_export *head, int i)
-{
-    if (i == 0 && p->num_commands > 1)
-        first_command(p, i);
-    else if (i == p->num_commands - 1)
-        last_command(p, i);
-    else
-        middle_commands(p, i);
 
-    create_path_pipes(p, head, i);
-    execute_command_pipes(p, head, i);
-}
-void handle_parent(t_data *p, int i)
-{
-    if (i == 0 && p->num_commands > 1)
-        close(p->pipefd[0][1]);
-    else if (i < p->num_commands - 1)
-        close(p->pipefd[i][1]);
-    else if (i > 0)
-        close(p->pipefd[i - 1][0]);
-}
 void pipe_fork_loop(t_data *p, t_export *head)
 {
     int i;
@@ -124,11 +98,11 @@ void pipe_cleanup(t_data *p)
 }
 
 
-
-void parse_pipes(t_data *p)
+void pipes(t_data *p, t_export *head)
 {
-	parse_pipe_arg(p);
-	create_pipe_arg(p);
-	trim_pipe_args(p);
-	p->num_commands = p->nb_of_pipes + 1;
+    pipe_prepare(p);
+    pipe_fork_loop(p, head);
+    pipe_wait_loop(p);
+    pipe_cleanup(p);
+    p->exit_code = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:22:29 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/21 19:22:03 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:27:18 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,10 @@ void remove_all_quotes_pipes(char *str)
 	}
 	str[j] = '\0';
 }
-
+void parse_pipes(t_data *p)
+{
+	parse_pipe_arg(p);
+	create_pipe_arg(p);
+	trim_pipe_args(p);
+	p->num_commands = p->nb_of_pipes + 1;
+}

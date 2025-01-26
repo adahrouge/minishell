@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:52:09 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/19 16:06:13 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:19:55 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 void first_command(t_data *p, int i)
 {
 	dup2(p->pipefd[i][1], STDOUT_FILENO); // STDOUT Becomes the write end of the pipe
-	close(p->pipefd[i][0]);
-	close(p->pipefd[i][1]);
+	close(p->pipefd[i][0]); //close read end
+	close(p->pipefd[i][1]); // close write end
 }
 void middle_commands(t_data *p, int i)
 {
@@ -51,9 +51,31 @@ void execute_command_pipes(t_data *p, t_export *head, int i)
 		execve(p->correct_path, cmd_args, envp);
 	
 	perror("execve failed");
+	p->exit_code = 1;
 	if (p->correct_path)
 		free(p->correct_path);
 	free_2d_array(envp);
 	free_2d_array(cmd_args);
 	exit(EXIT_FAILURE);
+}
+void handle_child(t_data *p, t_export *head, int i)
+{
+    if (i == 0 && p->num_commands > 1)
+        first_command(p, i);
+    else if (i == p->num_commands - 1)
+        last_command(p, i);
+    else
+        middle_commands(p, i);
+
+    create_path_pipes(p, head, i);
+    execute_command_pipes(p, head, i);
+}
+void handle_parent(t_data *p, int i)
+{
+    if (i == 0 && p->num_commands > 1)
+        close(p->pipefd[0][1]);
+    else if (i < p->num_commands - 1)
+        close(p->pipefd[i][1]);
+    else if (i > 0)
+        close(p->pipefd[i - 1][0]);
 }
