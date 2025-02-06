@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/21 19:17:38 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:20:21 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <signal.h>
 #include <stddef.h>
 #include <fcntl.h>
+#include <stdbool.h>
 # define STDERR 2
 
 
@@ -77,6 +78,7 @@ void loop(t_data *p, t_export **head);
 void read_command_line(t_data *p);
 int pwd(t_data *p);
 int cd(t_data *p, int value);
+int is_builtin(char *str);
 
 //signals
 void sigint_handler(int signum);
@@ -196,11 +198,23 @@ void pipe_wait_loop(t_data *p);
 void pipe_cleanup(t_data *p);
 //debug
 
+
+//quote_split.c
+void skip_quotes(const char *str, int *i);
+int count_tokens(const char *str);
+char *copy_token(const char *str, int start, int end);
+char **split_cmd_quoted(const char *str);
+char **split_cmd_quoted_core(const char *str, char **tokens, int token_count);
 //free
 void free_allocated(t_data *p);
 void	free_split(char **split);
 void free_2d_array(char **array);
 void free_pipe(t_data *p, int num_commands);
 void free_already_allocated(char **new_paths, int len);
+
+
+
+//test
+void echo_print_arg(char *arg, t_export *head);
 
 #endif 

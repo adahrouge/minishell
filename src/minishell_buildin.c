@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/14 13:19:08 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:22:43 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,29 @@ int cd(t_data *p, int value)
     }
     return 0;
 }
-
+int is_builtin(char *str)
+{
+    if (!str)
+        return 0;
+    if (ft_strncmp(str, "echo", 4) == 0)
+        return 1;
+    if (ft_strncmp(str, "cd", 2) == 0)
+        return 1;
+    if (ft_strncmp(str, "pwd", 3) == 0)
+        return 1;
+    if (ft_strncmp(str, "export", 6) == 0)
+        return 1;
+    if (ft_strncmp(str, "env", 3) == 0)
+        return 1;
+    if (ft_strncmp(str, "unset", 5) == 0)
+        return 1;
+    return 0;
+}
 void build_in(t_data *p, t_export **head)
 {
     int value;
     value = 0;
-	if ((ft_strcmp(p->cmd_args[0], "pwd") == 0) && (p->args == 1))
+	if ((ft_strcmp(p->cmd_args[0], "pwd") == 0)) //&& (p->args == 1))
         p->exit_code = pwd(p);
 	else if (ft_strcmp(p->cmd_args[0], "cd") == 0)
 		p->exit_code = cd(p, value);
@@ -75,11 +92,6 @@ void build_in(t_data *p, t_export **head)
         p->exit_code = env(*head);
      else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
         p->exit_code = ft_unset_all(p->input, head);
-     else
-     {
-        external_commands(p, *head);
-        // printf("bash: %s: command not found\n", p->cmd_args[0]);
-        // p->exit_code = 127;
-     }
+    return ;
 }
 

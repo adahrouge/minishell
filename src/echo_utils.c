@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 12:23:59 by adahroug          #+#    #+#             */
-/*   Updated: 2024/12/13 14:58:11 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:57:23 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,40 +99,3 @@ int expand_variable(char *arg, t_export *head)
         write(1, value, ft_strlen(value));
     return i;
 }
-
-
-
-//the variables in export should be the same of the echo
-//example : export lol=hello
-// echo $lol should give hello
-
-
-// int expand_variable(char *arg)
-// {
-// 	t_export *ptr;
-//     int i;
-//     char var_name[256];
-//     int var_len;
-// 	char *value;
-    
-// 	ptr = malloc(sizeof(t_export));
-// 	if (!ptr)
-// 		return 0;
-	
-//     var_len = 0;
-//     i = 0;
-//     while ((arg[i] >= 'A' && arg[i] <= 'Z') ||
-//            (arg[i] >= 'a' && arg[i] <= 'z') ||
-//            (arg[i] >= '0' && arg[i] <= '9') ||
-//             arg[i] == '_')
-//         var_name[var_len++] = arg[i++];
-//     var_name[var_len] = '\0';
-// 	while (ptr != NULL)
-// 	{
-//     value = my_getenv(var_name, ptr);
-// 	ptr = ptr->next;
-// 	}
-//     if (value)
-//         write(1, value, ft_strlen(value));
-//     return i;
-// }

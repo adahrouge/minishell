@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/15 20:40:56 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:52:49 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,3 @@ char **convert_list_to_array(t_export *head)
 	envp[i] = NULL;
 	return envp;
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:52:09 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/22 15:19:55 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:15:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void execute_command_pipes(t_data *p, t_export *head, int i)
 	char **cmd_args;
 	
 	envp = convert_list_to_array(head);
-	cmd_args = ft_split(p->store_pipe_arg[i], ' ');
+	cmd_args = split_cmd_quoted(p->store_pipe_arg[i]);
 	if (!cmd_args || !cmd_args[0])
 	{
 		free_2d_array(envp);
@@ -64,11 +64,20 @@ void handle_child(t_data *p, t_export *head, int i)
         first_command(p, i);
     else if (i == p->num_commands - 1)
         last_command(p, i);
-    else
-        middle_commands(p, i);
-
+    	else
+        	middle_commands(p, i);
+	p->cmd_args = split_cmd_quoted(p->store_pipe_arg[i]);
+	if (is_builtin(p->cmd_args[0]))
+	{
+		build_in(p, &head);
+		exit(p->exit_code);
+	}
+	else
+	{
     create_path_pipes(p, head, i);
     execute_command_pipes(p, head, i);
+	}
+	exit(p->exit_code);
 }
 void handle_parent(t_data *p, int i)
 {
