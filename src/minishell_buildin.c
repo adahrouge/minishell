@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/06 18:22:43 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:59:47 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void build_in(t_data *p, t_export **head)
 {
     int value;
     value = 0;
-	if ((ft_strcmp(p->cmd_args[0], "pwd") == 0)) //&& (p->args == 1))
+	if ((ft_strcmp(p->cmd_args[0], "pwd") == 0) && (p->args == 1))
         p->exit_code = pwd(p);
 	else if (ft_strcmp(p->cmd_args[0], "cd") == 0)
 		p->exit_code = cd(p, value);

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/06 18:20:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:50:39 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int handle_quotations(char *arg, t_export *head);
 int handle_single_quotes(char *arg);
 int handle_double_quotes(char *arg, t_export *head);
 int expand_variable(char *arg, t_export *head);
+void echo_print_arg(char *arg, t_export *head);
 
 //export env unset
 int export(t_export *head);
@@ -196,6 +197,9 @@ void handle_parent(t_data *p, int i);
 void pipe_fork_loop(t_data *p, t_export *head);
 void pipe_wait_loop(t_data *p);
 void pipe_cleanup(t_data *p);
+int pipeInputCorrect(t_data *p);
+int inputCheckPipe(t_data *p, int *i, int *in_quotes, int *segment_len);
+
 //debug
 
 
@@ -212,9 +216,5 @@ void free_2d_array(char **array);
 void free_pipe(t_data *p, int num_commands);
 void free_already_allocated(char **new_paths, int len);
 
-
-
-//test
-void echo_print_arg(char *arg, t_export *head);
 
 #endif 

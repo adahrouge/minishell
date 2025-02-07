@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/06 17:38:31 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:49:54 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void read_command_line(t_data *p)
 {
 	p->args = count_words(p->input, ' ');
-	//  p->cmd_args = ft_split(p->input, ' ');
 	p->cmd_args = split_cmd_quoted(p->input);
 }
 
@@ -67,9 +66,14 @@ void loop(t_data *p, t_export **head)
 		if (input_is_clear(p))
 			continue;
         add_history(p->input);
-		if (input_contains_pipe(p))
+		if (input_contains_pipe(p) && pipeInputCorrect(p))
 		{
 			pipes(p, *head);
+			continue;
+		}
+		else if (input_contains_pipe(p))
+		{
+			free(p->input);
 			continue;
 		}
 		else
