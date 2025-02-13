@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:46:27 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/06 17:57:10 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:56:07 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ int echo(t_data *p, t_export *head)
             write(1, "\n", 1);
         return (0);
     }
+    if (ft_strcmp(p->input, "echo $?") == 0)
+        {
+            printf("%d\n", p->exit_code);
+            return 0;
+        }
     while (p->cmd_args[i])
     {
         echo_print_arg(p->cmd_args[i], head);

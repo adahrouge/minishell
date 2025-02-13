@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/07 14:59:47 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:03:13 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ void build_in(t_data *p, t_export **head)
     else if (ft_strcmp(p->cmd_args[0], "echo") == 0)
         p->exit_code = echo(p, *head);
      else if (ft_strcmp(p->cmd_args[0], "export") == 0)
-        p->exit_code = export_main(p, head);
+     {
+         p->exit_code = export_main(p, head);
+     }
      else if (ft_strcmp(p->cmd_args[0], "env") == 0)
         p->exit_code = env(*head);
      else if (ft_strcmp(p->cmd_args[0], "unset") == 0)

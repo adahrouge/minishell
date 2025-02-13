@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:39:51 by abouraad          #+#    #+#             */
-/*   Updated: 2025/01/13 12:44:49 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:58:18 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void sigint_handler(int signum)
     write(1, "\n", 1);             // Move to a new line
     rl_on_new_line();              // Prepare readline for a new line
     rl_replace_line("", 0);        // Clear the current line input
-    rl_redisplay();                // Redisplay the prompt
+    rl_redisplay();               // Redisplay the prompt
 }
 void sigquit_handler(int signum)
 {

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:45:57 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/26 18:52:46 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:58:39 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ int export_main(t_data *p, t_export **head)
 	int i;
 	*head = sort_list(*head);
 	i = 1;
-	if (ft_strcmp(p->input, "export") == 0 && p->cmd_args[1] == NULL)
+	if (ft_strcmp(p->cmd_args[0], "export") == 0)
+		p->exit_code = export(*head);
+	else if (ft_strcmp(p->input, "export") == 0 && p->cmd_args[1] == NULL)
 		p->exit_code = export(*head);
 	else
 	{
