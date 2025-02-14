@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/26 17:48:23 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:55:54 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void pipe_cleanup(t_data *p)
         free(p->full_path_pipe);
         p->full_path_pipe = NULL;
     }
-    free(p->input);
+    //free(p->input);
 }
 
 

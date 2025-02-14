@@ -6,15 +6,18 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/26 18:52:49 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:11:37 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void external_commands(t_data *p, t_export *head)
+void freeExternalCommands(char **paths, char **new_paths)
 {
-	char *path_env;
+	free_2d_array(paths);
+	free_2d_array(new_paths);
+}
+void external_commands(t_data *p, t_export *head, char *path_env)
+{
 	char **paths;
 	char **new_paths;
 	char *full_path;
@@ -27,7 +30,6 @@ void external_commands(t_data *p, t_export *head)
 		if (!new_paths)
 		{
 			free_2d_array(paths);
-			perror("error: failed to create new_paths");
 			return ;
 		}
 	copy_paths(paths, new_paths);
@@ -39,8 +41,7 @@ void external_commands(t_data *p, t_export *head)
 			printf("bash: %s: command not found\n", p->cmd_args[0]);
 			p->exit_code = 127;
 		}
-	free_2d_array(paths);
-	free_2d_array(new_paths);
+	freeExternalCommands(paths, new_paths);
 	return ;
 }
 void execute_command(char *full_path, t_data *p, t_export *head)
@@ -49,6 +50,7 @@ void execute_command(char *full_path, t_data *p, t_export *head)
 	char **envp;
 	int status;
 
+	status = 0;
 	envp = convert_list_to_array(head);
 	pid = fork();
 	if (pid == 0)
@@ -60,22 +62,24 @@ void execute_command(char *full_path, t_data *p, t_export *head)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
-	{
-		if (waitpid(pid, &status, 0) == -1)
-			p->exit_code = 1;
-		else 
-		if (WIFEXITED(status))
-			p->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			p->exit_code = 128 + WTERMSIG(status);
-		free(full_path);
-	}
+		parentExecution(pid, status, p, full_path);
 	else
 	{
 		free(full_path);
 		p->exit_code = 1;	
 	}
 	free_2d_array(envp);
+}
+void parentExecution(pid_t pid, int status, t_data *p, char *full_path)
+{
+	if (waitpid(pid, &status, 0) == -1)
+		p->exit_code = 1;
+		else 
+		if (WIFEXITED(status))
+			p->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			p->exit_code = 128 + WTERMSIG(status);
+		free(full_path);
 }
 
 char *create_full_path(t_data *p, char **new_paths)
@@ -138,7 +142,7 @@ char **create_new_path(char **paths)
 	while (paths[i] != NULL)
 	{
 		len = ft_strlen(paths[i]);
-		new_paths[i] = malloc((len + 2) * sizeof(char)); // for '/' and '\0'
+		new_paths[i] = malloc((len + 2) * sizeof(char)); // +2 for '/' and '\0'
 		if (!new_paths[i])
 		{
 			free_already_allocated(new_paths, i);
@@ -149,6 +153,21 @@ char **create_new_path(char **paths)
 	new_paths[i] = NULL;
 	return new_paths;
 }
+int size_list(t_export *head)
+{
+	t_export *ptr;
+	int i;
+
+	ptr = head;
+	i = 0;
+	while (ptr != NULL)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	return i;
+	
+}
 char **convert_list_to_array(t_export *head)
 {
 	int i;
@@ -157,15 +176,10 @@ char **convert_list_to_array(t_export *head)
 
 	ptr = head;
 	i = 0;
-	while (ptr != NULL) // do a function for the length for norminette
-	{
-		ptr = ptr->next;
-		i++;
-	}
+	i = size_list(head);
 	envp = malloc((i + 1) * sizeof(char *)); 
 	if (!envp)
 		return NULL;
-	ptr = head;
 	i = 0;
 	while (ptr != NULL)
 	{

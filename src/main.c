@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/07 15:49:54 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:44:29 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,62 +32,7 @@ void free_allocated(t_data *p)
 	free(p);
 }
 
-void loop(t_data *p, t_export **head)
-{
-    while (1)
-    {
-        p->input = readline("minishell > ");
-		if (p->input == NULL)
-		{
-			printf("exit\n");
-			break;	
-			}
-		if (p->input[0] == '\0')
-		{
-			free(p->input);
-			continue;
-		}
-		if (input_is_null(p))
-			break;
-        if (input_is_backslash(p))
-            continue;
-        if (input_is_exit(p))
-            break;
-		if (input_is_space(p))
-			continue;
-		if (input_is_redirect(p))
-			continue;
-		if (input_is_slash(p))
-			continue;
-		if (input_is_dash(p))
-			continue;
-		if (input_is_and(p))
-			continue;
-		if (input_is_clear(p))
-			continue;
-        add_history(p->input);
-		if (input_contains_pipe(p) && pipeInputCorrect(p))
-		{
-			pipes(p, *head);
-			continue;
-		}
-		else if (input_contains_pipe(p))
-		{
-			free(p->input);
-			continue;
-		}
-		else
-		{
-        read_command_line(p);
-		if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))
-        	build_in(p, head);
-			else
-			 external_commands(p, *head);
-		free_split(p->cmd_args);
-        free(p->input);
-		}
-	}
-}
+
 int main(int argc, char **argv, char **environ)
 {
 	t_data *p;

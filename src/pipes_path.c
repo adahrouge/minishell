@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:02:00 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/21 18:54:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:34:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ char *create_path_pipes(t_data *p, t_export *head, int cmd_index)
     char **new_paths;
     char *result_path;
 
-    new_paths = NULL; 
-    result_path = NULL;
     if (!check_cmd_name_valid(p, cmd_index, &cmd_name))
         return NULL;
     path_env = my_getenv("PATH", head);

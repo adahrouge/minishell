@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/07 15:50:39 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:22:17 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void read_command_line(t_data *p);
 int pwd(t_data *p);
 int cd(t_data *p, int value);
 int is_builtin(char *str);
+int read_line(t_data *p);
+int checkLoopResult(t_data *p);
+void handlePipeOrCommand(t_data *p, t_export **head);
 
 //signals
 void sigint_handler(int signum);
@@ -127,6 +130,8 @@ int handle_single_quotes(char *arg);
 int handle_double_quotes(char *arg, t_export *head);
 int expand_variable(char *arg, t_export *head);
 void echo_print_arg(char *arg, t_export *head);
+int echoConditions(t_data *p, int *i, int *no_newline);
+int exit_status(t_data *p);
 
 //export env unset
 int export(t_export *head);
@@ -158,11 +163,13 @@ int ft_unset_all(char *input, t_export **head);
 
 
 //execution
-void external_commands(t_data *p, t_export *head);
+void external_commands(t_data *p, t_export *head, char *path_env);
 void execute_command(char *full_path, t_data *p, t_export *head);
 char *create_full_path(t_data *p, char **new_paths);
 void copy_paths(char **paths, char **new_paths);
 char **create_new_path(char **paths);
+void parentExecution(pid_t pid, int status, t_data *p, char *full_path);
+void freeExternalCommands(char **paths, char **new_paths);
 
 
 //pipes
@@ -175,7 +182,7 @@ void create_fork(t_data *p, t_export *head, int *i);
 void execute_command_pipes(t_data *p, t_export *head, int i);
 char **convert_list_to_array(t_export *head);
 void parse_pipe_arg(t_data *p);
-void create_pipe_arg(t_data *p);
+void create_pipe_arg(t_data *p, int i);
 void create_single_arg(t_data *p, int *len, int *count, int start);
 void trim_whitespaces(char *str);
 void trim_pipe_args(t_data *p);
@@ -215,6 +222,8 @@ void	free_split(char **split);
 void free_2d_array(char **array);
 void free_pipe(t_data *p, int num_commands);
 void free_already_allocated(char **new_paths, int len);
+
+
 
 
 #endif 

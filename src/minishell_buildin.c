@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/13 15:03:13 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:38:12 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,17 @@ int pwd(t_data *p)
 int cd(t_data *p, int value)
 {
 	const char *home;
-
+    if (p->args > 2)
+    {
+        perror("bash cd: too many arguments");
+        return 2;
+    }
     if ((p->args == 1) || (p->args == 2 && 
         ft_strcmp(p->cmd_args[1], "~") == 0)) 
     {
        home = getenv("HOME");
         if (home == NULL) 
-        {
-            printf("HOME not set\n");
             return 1;
-        }
         value = chdir(home);
     }
     else if (p->args == 2 && (ft_strcmp(p->cmd_args[1], 
@@ -48,7 +49,7 @@ int cd(t_data *p, int value)
     if (value == -1) 
     {
         perror("cd");
-        return 1;
+        return 2;
     }
     return 0;
 }

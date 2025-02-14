@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:22:29 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/01 16:52:29 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:35:46 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ void handle_pipe(t_data *p, int *len, int *count, int *i)
 	while (p->input[*i] == ' ' || p->input[*i] == '\t')
 		(*i)++;
 }
-void create_pipe_arg(t_data *p)
+void create_pipe_arg(t_data *p, int i)
 {
-    int i;
     int in_quotes;
     int len;
     int count;     
@@ -133,34 +132,17 @@ void trim_pipe_args(t_data *p)
 	while (p->store_pipe_arg[i] != NULL)
 	{
 		trim_whitespaces(p->store_pipe_arg[i]);
-		//remove_all_quotes_pipes(p->store_pipe_arg[i]);
 		i++;
 	}
 }
-// void remove_all_quotes_pipes(char *str)
-// {
-// 	int i;
-// 	int j;
 
-// 	i = 0;
-// 	j = 0;
-// 	if (!str)
-// 		return ;
-// 	while (str[i])
-// 	{
-// 		if (str[i] != '"' && str[i] != '\'')
-// 		{
-// 			str[j] = str[i];
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	str[j] = '\0';
-// }
 void parse_pipes(t_data *p)
 {
+	int i;
+	
+	i = 0;
 	parse_pipe_arg(p);
-	create_pipe_arg(p);
+	create_pipe_arg(p, i);
 	trim_pipe_args(p);
 	p->num_commands = p->nb_of_pipes + 1;
 }
