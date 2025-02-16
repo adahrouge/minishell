@@ -6,82 +6,84 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 08:43:23 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/13 12:50:54 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:36:00 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int input_is_null(t_data *p)
+int	input_is_null(t_data *p)
 {
 	if (p->input == NULL)
 	{
-		  write(1, "exit\n", 5);
-		  free(p->input);
-			return 1;
+		write(1, "exit\n", 5);
+		free(p->input);
+		return (1);
 	}
-	return 0;
+	return (0);
 }
-int input_is_backslash(t_data *p)
+
+int	input_is_backslash(t_data *p)
 {
 	if (p->input[0] == '\0')
-    {
-    	free(p->input);
-		return 1;
+	{
+		free(p->input);
+		return (1);
 	}
-	return 0;
+	return (0);
 }
-int input_is_exit(t_data *p)
+
+int	input_is_exit(t_data *p)
 {
 	if (ft_strcmp(p->input, "exit") == 0)
 	{
 		free(p->input);
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
-int input_is_space(t_data *p)
+
+int	input_is_space(t_data *p)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (p->input[i] != '\0')
 	{
 		if (p->input[i] == ' ')
-		i++;
+			i++;
 		else
-		return 0;
+			return (0);
 	}
-	//write(1, "\n", 1);
 	free(p->input);
-	return 1;
+	return (1);
 }
-int input_is_redirect(t_data *p)
-{
 
+int	input_is_redirect(t_data *p)
+{
 	if ((ft_strncmp(p->input, ">>>>>>", 3) == 0)
 		|| ft_strncmp(p->input, "<<<<<<", 4) == 0)
 	{
 		write(1, "bash: syntax error near unexpected token `>'\n", 45);
 		free(p->input);
-		return 1;
+		return (1);
 		p->exit_code = 2;
 	}
 	else if (ft_strcmp(p->input, "><") == 0)
 	{
-		write(1,"bash: syntax error near unexpected token `<'\n", 45);
+		write(1, "bash: syntax error near unexpected token `<'\n", 45);
 		free(p->input);
 		p->exit_code = 2;
-		return 1;
+		return (1);
 	}
-	else if (p->input[0] == '>' || p->input[0] == '<' || ft_strcmp(p->input,"<<") == 0
+	else if (p->input[0] == '>' || p->input[0] == '<'
+		|| ft_strcmp(p->input, "<<") == 0
 		|| ft_strcmp(p->input, ">>") == 0 || ft_strcmp(p->input, "<>") == 0)
 	{
-		 write(1,"bash: syntax error near unexpected token `newline'\n", 51);
+		write(1, "bash: syntax error near unexpected token `newline'\n", 51);
 		free(p->input);
 		p->exit_code = 2;
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
-
-

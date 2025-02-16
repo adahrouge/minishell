@@ -6,15 +6,15 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 22:31:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/01/16 12:57:50 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:29:12 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_pipe(t_data *p, int size)
+void	free_pipe(t_data *p, int size)
 {
-	int i;
+	int	i;
 
 	if (!p || !p->pipefd)
 		return ;
@@ -28,10 +28,11 @@ void free_pipe(t_data *p, int size)
 	free(p->pipefd);
 	p->pipefd = NULL;
 }
-void free_2d_array(char **array)
+
+void	free_2d_array(char **array)
 {
-	int i;
-	int size;
+	int	i;
+	int	size;
 
 	if (!array)
 		return ;
@@ -46,9 +47,11 @@ void free_2d_array(char **array)
 	}
 	free(array);
 }
-void free_already_allocated(char **new_paths, int len)
+
+void	free_already_allocated(char **new_paths, int len)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < len)
 	{

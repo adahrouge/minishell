@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/14 15:22:17 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/16 17:07:18 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int handle_single_quotes(char *arg);
 int handle_double_quotes(char *arg, t_export *head);
 int expand_variable(char *arg, t_export *head);
 void echo_print_arg(char *arg, t_export *head);
-int echoConditions(t_data *p, int *i, int *no_newline);
+int echo_conditions(t_data *p, int *i, int *no_newline);
 int exit_status(t_data *p);
 
 //export env unset
@@ -168,8 +168,8 @@ void execute_command(char *full_path, t_data *p, t_export *head);
 char *create_full_path(t_data *p, char **new_paths);
 void copy_paths(char **paths, char **new_paths);
 char **create_new_path(char **paths);
-void parentExecution(pid_t pid, int status, t_data *p, char *full_path);
-void freeExternalCommands(char **paths, char **new_paths);
+void parent_execution(pid_t pid, int status, t_data *p, char *full_path);
+void free_external_commands(char **paths, char **new_paths);
 
 
 //pipes
@@ -204,8 +204,8 @@ void handle_parent(t_data *p, int i);
 void pipe_fork_loop(t_data *p, t_export *head);
 void pipe_wait_loop(t_data *p);
 void pipe_cleanup(t_data *p);
-int pipeInputCorrect(t_data *p);
-int inputCheckPipe(t_data *p, int *i, int *in_quotes, int *segment_len);
+int pipe_input_correct(t_data *p);
+int input_check_pipe(t_data *p, int *i, int *in_quotes, int *segment_len);
 
 //debug
 
@@ -222,8 +222,6 @@ void	free_split(char **split);
 void free_2d_array(char **array);
 void free_pipe(t_data *p, int num_commands);
 void free_already_allocated(char **new_paths, int len);
-
-
 
 
 #endif 

@@ -6,10 +6,9 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:23:36 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/14 14:36:15 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:50:25 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -33,7 +32,6 @@ int	count_words(const char *str, char c)
 	}
 	return (i);
 }
-
 
 char	*word_dup(const char *str, int start, int finish)
 {
@@ -78,12 +76,12 @@ char	**ft_split(char *s, char c)
 
 void	free_split(char **split)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!split)
-		return;
+		return ;
 	while (split[i])
 		free(split[i++]);
 	free(split);
 }
-
-

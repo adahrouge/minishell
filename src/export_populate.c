@@ -6,19 +6,18 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:38:45 by adahroug          #+#    #+#             */
-/*   Updated: 2024/11/24 15:39:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:12:56 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-t_export *populate_list(char **environ)
+t_export	*populate_list(char **environ)
 {
-	int i;
-	t_export *head;
-	t_export *newnode;
-	t_export *ptr;
+	int			i;
+	t_export	*head;
+	t_export	*newnode;
+	t_export	*ptr;
 
 	head = NULL;
 	ptr = NULL;
@@ -29,49 +28,52 @@ t_export *populate_list(char **environ)
 		if (!newnode)
 		{
 			free_list(head);
-			return NULL;
+			return (NULL);
 		}
 		check_for_populate(&head, &ptr, newnode);
 		i++;
 	}
-	return head;
+	return (head);
 }
 
-t_export *create_my_list(char **environ, int i)
+t_export	*create_my_list(char **environ, int i)
 {
-	t_export *newnode;
+	t_export	*newnode;
 
-	 newnode = malloc(sizeof(t_export));
-        if (!newnode)
-            return NULL;
-        newnode->data = malloc(ft_strlen(environ[i]) + 1);
-        if (!newnode->data)
-        {
-            free(newnode);
-            return NULL;
-        }
-        ft_strcpy(newnode->data, environ[i]);
-        newnode->name = NULL;
-        newnode->value = NULL;
-        newnode->next = NULL;
-	return newnode;
+	newnode = malloc(sizeof(t_export));
+	if (!newnode)
+		return (NULL);
+	newnode->data = malloc(ft_strlen(environ[i]) + 1);
+	if (!newnode->data)
+	{
+		free(newnode);
+		return (NULL);
+	}
+	ft_strcpy(newnode->data, environ[i]);
+	newnode->name = NULL;
+	newnode->value = NULL;
+	newnode->next = NULL;
+	return (newnode);
 }
-void check_for_populate(t_export **head, t_export **ptr, t_export *newnode)
+
+void	check_for_populate(t_export **head, t_export **ptr, t_export *newnode)
 {
 	if (*head == NULL)
-        {
-            *head = newnode;
-            *ptr = *head;
-        }
-        else
-        {
-            (*ptr)->next = newnode;
-            *ptr = newnode;
-        }
+	{
+		*head = newnode;
+		*ptr = *head;
+	}
+	else
+	{
+		(*ptr)->next = newnode;
+		*ptr = newnode;
+	}
 }
-void free_list(t_export *head)
+
+void	free_list(t_export *head)
 {
-	t_export *temp;
+	t_export	*temp;
+
 	while (head != NULL)
 	{
 		temp = head;
@@ -86,10 +88,10 @@ void free_list(t_export *head)
 	}
 }
 
-int arrange_export(t_export *head)
+int	arrange_export(t_export *head)
 {
-	t_export *tmp;
-	int equal_pos;
+	t_export	*tmp;
+	int			equal_pos;
 
 	tmp = head;
 	while (tmp != NULL)
@@ -104,9 +106,9 @@ int arrange_export(t_export *head)
 		{
 			tmp->name = ft_substr(tmp->data, 0, equal_pos);
 			tmp->value = ft_substr(tmp->data, equal_pos + 1,
-			ft_strlen(tmp->data) - equal_pos - 1);
+					ft_strlen(tmp->data) - equal_pos - 1);
 		}
 		tmp = tmp->next;
 	}
-	return 1;
+	return (1);
 }
