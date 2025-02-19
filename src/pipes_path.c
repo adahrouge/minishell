@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:02:00 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 17:00:35 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:04:22 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,21 +118,4 @@ char	*create_path_pipes(t_data *p, t_export *head, int cmd_index)
 	else
 		p->correct_path = NULL;
 	return (p->correct_path);
-}
-
-// get ls from ls - l
-char	*parse_command(t_data *p, int cmd_index)
-{
-	char	*raw;
-	char	*cmd;
-	int		len;
-
-	raw = p->store_pipe_arg[cmd_index];
-	if (!raw || !raw[0])
-		return (NULL);
-	len = 0;
-	while (raw[len] && raw[len] != ' ')
-		len++;
-	cmd = strndup(raw, len);
-	return (cmd);
 }

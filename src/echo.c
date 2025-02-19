@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:46:27 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 17:06:46 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:21:23 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	echo_print_arg(char *arg, t_export *head)
 	int	consumed;
 
 	i = 0;
+
 	while (arg[i] != '\0')
 	{
 		while (arg[i] != '\0' && arg[i] != '\''
@@ -55,7 +56,7 @@ void	echo_print_arg(char *arg, t_export *head)
 		}
 		if (arg[i] == '\'' || arg[i] == '"')
 		{
-			consumed = handle_quotations(&arg[i], head);
+			consumed = handle_quotations(&arg[i], &i, head);
 			i += consumed;
 		}
 		else if (arg[i] == '$')

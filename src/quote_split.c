@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:45:24 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 17:06:32 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:22:09 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*copy_token(const char *str, int start, int end)
 	dst_i = 0;
 	while (src_i < end)
 	{
-		if (str[src_i] == '"' || str[src_i] == '\'')
+		if (str[src_i] == '"')
 		{
 			quote_char = str[src_i++];
 			while (src_i < end && str[src_i] != quote_char)

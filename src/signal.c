@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:39:51 by abouraad          #+#    #+#             */
-/*   Updated: 2025/02/13 15:58:18 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:07:51 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 
 //     sa.sa_handler = sigint_handler;
 //     sigemptyset(&sa.sa_mask);
-//     sa.sa_flags = SA_RESTART; // Ensure interrupted system calls are restarted
+//     sa.sa_flags = SA_RESTART; 
 //     sigaction(SIGINT, &sa, NULL);
 
 //     sa.sa_handler = SIG_IGN; // Ignore SIGQUIT

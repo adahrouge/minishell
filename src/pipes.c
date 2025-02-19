@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 17:02:56 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:53:23 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	create_pipes(t_data *p)
 {
 	int	i;
 
-	p->pipefd = malloc(sizeof(int *) * (p->nb_of_pipes)); //have to free
+	p->pipefd = malloc(sizeof(int *) * (p->nb_of_pipes));
 	if (!p->pipefd)
 		exit(EXIT_FAILURE);
 	i = 0;
 	while (i < p->nb_of_pipes)
 	{
-		p->pipefd[i] = malloc(2 * sizeof(int)); // have to free
+		p->pipefd[i] = malloc(2 * sizeof(int));
 		if (!p->pipefd[i])
 		{
 			perror("malloc failed for pipefd[i]");
@@ -49,33 +49,9 @@ void	pipe_prepare(t_data *p)
 		exit(EXIT_FAILURE);
 }
 
-void	pipe_fork_loop(t_data *p, t_export *head)
-{
-	int	i;
-
-	i = 0;
-	while (i < p->num_commands)
-	{
-		p->pids[i] = fork();
-		if (p->pids[i] < 0)
-		{
-			perror("fork failed");
-			exit(EXIT_FAILURE);
-		}
-		else if (p->pids[i] == 0)
-			handle_child(p, head, i);
-		else
-		{
-			handle_parent(p, i);
-			p->full_path_pipe = NULL;
-		}
-		i++;
-	}
-}
-
 void	pipe_wait_loop(t_data *p)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (j < p->num_commands)

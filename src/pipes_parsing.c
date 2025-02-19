@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:22:29 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 16:55:08 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:03:25 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parse_pipe_arg(t_data *p)
 			p->nb_of_pipes++;
 		i++;
 	}
-	p->store_pipe_arg = malloc((p->nb_of_pipes + 2) * sizeof(char *)); // one for null and one for the extra arg
+	p->store_pipe_arg = malloc((p->nb_of_pipes + 2) * sizeof(char *));
 	if (!p->store_pipe_arg)
 	{
 		perror("failed malloc store_pipe_arg");
@@ -60,49 +60,6 @@ void	handle_pipe(t_data *p, int *len, int *count, int *i)
 		(*i)++;
 }
 
-void	create_pipe_arg(t_data *p, int i)
-{
-	int	in_quotes;
-	int	len;
-	int	count;
-
-	i = 0;
-	in_quotes = 0;
-	len = 0;
-	count = 0;
-	while (p->input[i] != '\0')
-	{
-		handle_quotes_pipes(p->input[i], &in_quotes);
-		if (!in_quotes && p->input[i] == '|')
-			handle_pipe(p, &len, &count, &i);
-		else
-		{
-			len++;
-			i++;
-		}
-	}
-	if (len > 0)
-	{
-		create_single_arg(p, &len, &count, i - len);
-		count++;
-	}
-	p->store_pipe_arg[count] = NULL;
-}
-
-void	create_single_arg(t_data *p, int *len, int *count, int start)
-{
-	p->store_pipe_arg[*count] = malloc((*len + 1) * sizeof(char));
-	if (!p->store_pipe_arg[*count])
-	{
-		perror("Failed to allocate memory for pipe segment");
-		exit(EXIT_FAILURE);
-	}
-	for (int i = 0; i < *len; i++)
-		p->store_pipe_arg[*count][i] = p->input[start + i];
-	p->store_pipe_arg[*count][*len] = '\0';
-	p->store_pipe_arg[*count + 1] = NULL;
-}
-
 void	trim_whitespaces(char *str)
 {
 	int	i;
@@ -127,18 +84,6 @@ void	trim_whitespaces(char *str)
 		start++;
 	}
 	str[i] = '\0';
-}
-
-void	trim_pipe_args(t_data *p)
-{
-	int	i;
-
-	i = 0;
-	while (p->store_pipe_arg[i] != NULL)
-	{
-		trim_whitespaces(p->store_pipe_arg[i]);
-		i++;
-	}
 }
 
 void	parse_pipes(t_data *p)

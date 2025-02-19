@@ -6,19 +6,19 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 12:23:59 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 15:36:18 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:40:32 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_quotations(char *arg, t_export *head)
+int	handle_quotations(char *arg, int *i, t_export *head)
 {
-	if (arg[0] == '\'')
+	if (arg[*i] == '\'')
 	{
 		return (handle_single_quotes(arg));
 	}
-	else if (arg[0] == '"')
+	else if (arg[*i] == '"')
 	{
 		return (handle_double_quotes(arg, head));
 	}
