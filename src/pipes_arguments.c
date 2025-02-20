@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:02:08 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/19 12:04:08 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:34:55 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	trim_pipe_args(t_data *p)
 	int	i;
 
 	i = 0;
+
 	while (p->store_pipe_arg[i] != NULL)
 	{
 		trim_whitespaces(p->store_pipe_arg[i]);

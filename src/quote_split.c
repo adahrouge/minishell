@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:45:24 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/19 15:22:09 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:16:05 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,55 @@ int	count_tokens(const char *str)
 	}
 	return (count);
 }
-
-char	*copy_token(const char *str, int start, int end)
+char *copy_token(const char *str, int start, int end)
 {
-	char	*token;
-	int		src_i;
-	int		dst_i;
-	char	quote_char;
+    char *token;
+    int src;
+    int dst;
 
-	token = malloc((end - start + 1) * sizeof(char));
-	if (!token)
-		return (NULL);
-	src_i = start;
-	dst_i = 0;
-	while (src_i < end)
-	{
-		if (str[src_i] == '"')
-		{
-			quote_char = str[src_i++];
-			while (src_i < end && str[src_i] != quote_char)
-				token[dst_i++] = str[src_i++];
-			if (src_i < end && str[src_i] == quote_char)
-				src_i++;
-		}
-		else
-			token[dst_i++] = str[src_i++];
-	}
-	token[dst_i] = '\0';
-	return (token);
+    token = malloc(end - start + 1);
+    if (!token)
+        return NULL;
+    src = start;
+    dst = 0;
+    while (src < end)
+    {
+        token[dst] = str[src];
+        dst++;
+        src++;
+    }
+    token[dst] = '\0';
+    return token;
 }
+
+// char	*copy_token(const char *str, int start, int end)
+// {
+// 	char	*token;
+// 	int		src_i;
+// 	int		dst_i;
+// 	char	quote_char;
+
+// 	token = malloc((end - start + 1) * sizeof(char));
+// 	if (!token)
+// 		return (NULL);
+// 	src_i = start;
+// 	dst_i = 0;
+// 	while (src_i < end)
+// 	{
+// 		if (str[src_i] == '"')
+// 		{
+// 			quote_char = str[src_i++];
+// 			while (src_i < end && str[src_i] != quote_char)
+// 				token[dst_i++] = str[src_i++];
+// 			if (src_i < end && str[src_i] == quote_char)
+// 				src_i++;
+// 		}
+// 		else
+// 			token[dst_i++] = str[src_i++];
+// 	}
+// 	token[dst_i] = '\0';
+// 	return (token);
+// }
 
 char	**split_cmd_quoted(const char *str)
 {
