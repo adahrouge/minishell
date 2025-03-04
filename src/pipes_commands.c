@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:52:09 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/19 12:03:18 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:57:50 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	execute_command_pipes(t_data *p, t_export *head, int i)
 		p->exit_code = 127;
 		exit(EXIT_FAILURE);
 	}
+	remove_quotes_args(cmd_args);
 	if (p->correct_path)
 		execve(p->correct_path, cmd_args, envp);
 	perror("execve failed");

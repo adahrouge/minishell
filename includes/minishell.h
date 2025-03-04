@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/19 12:40:42 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:46:13 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,5 +219,11 @@ void		free_split(char **split);
 void		free_2d_array(char **array);
 void		free_pipe(t_data *p, int num_commands);
 void		free_already_allocated(char **new_paths, int len);
+
+
+
+
+void remove_quotes_args(char **args);
+void remove_quotes(char *arg);
 
 #endif 

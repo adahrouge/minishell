@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 17:07:35 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:17:29 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	handle_pipe_or_command(t_data *p, t_export **head)
 {
 	char	*path_env;
+	int is_echo;
 
+	is_echo = 0;
 	path_env = NULL;
 	if (input_contains_pipe(p) && pipe_input_correct(p))
 	{
@@ -23,12 +25,14 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 		free(p->input);
 	}
 	else if (input_contains_pipe(p))
-	{
 		free(p->input);
-	}
 	else
 	{
 		read_command_line(p);
+		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
+			is_echo = 1;
+		if (!is_echo)
+			remove_quotes_args(p->cmd_args);
 		if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))
 			build_in(p, head);
 		else
@@ -37,13 +41,41 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 		free(p->input);
 	}
 }
+void remove_quotes_args(char **args)
+{
+    int i = 0;
+    while (args[i])
+    {
+        remove_quotes(args[i]);
+        i++;
+    }
+}
+
+void remove_quotes(char *arg)
+{
+    int src;
+    int dst;
+
+	src = 0;
+	dst = 0;
+    while (arg[src])
+    {
+        if (arg[src] != '"' && arg[src] != '\'')
+        {
+            arg[dst] = arg[src];
+            dst++;
+        }
+        src++;
+    }
+    arg[dst] = '\0';
+}
 
 int	check_loop_result(t_data *p)
 {
 	if (input_is_null(p))
 		return (-1);
 	if (input_is_backslash(p))
-		return (1);
+		return (-1);
 	if (input_is_exit(p))
 		return (-1);
 	if (input_is_space(p))
