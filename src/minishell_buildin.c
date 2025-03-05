@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/14 13:38:12 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:20:34 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@ int pwd(t_data *p)
 int cd(t_data *p, int value)
 {
 	const char *home;
-    if (p->args > 2)
-    {
-        perror("bash cd: too many arguments");
-        return 2;
-    }
+
     if ((p->args == 1) || (p->args == 2 && 
         ft_strcmp(p->cmd_args[1], "~") == 0)) 
     {
@@ -75,7 +71,7 @@ void build_in(t_data *p, t_export **head)
 {
     int value;
     value = 0;
-	if ((ft_strcmp(p->cmd_args[0], "pwd") == 0) && (p->args == 1))
+	if (ft_strcmp(p->cmd_args[0], "pwd") == 0) //&& (p->args == 1))
         p->exit_code = pwd(p);
 	else if (ft_strcmp(p->cmd_args[0], "cd") == 0)
 		p->exit_code = cd(p, value);

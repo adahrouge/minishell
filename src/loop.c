@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/04 18:17:29 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:39:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 	else
 	{
 		read_command_line(p);
+		expand_all_tokens(p->cmd_args, *head);
 		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
 			is_echo = 1;
 		if (!is_echo)
@@ -75,7 +76,7 @@ int	check_loop_result(t_data *p)
 	if (input_is_null(p))
 		return (-1);
 	if (input_is_backslash(p))
-		return (-1);
+		return (1);
 	if (input_is_exit(p))
 		return (-1);
 	if (input_is_space(p))
@@ -100,11 +101,6 @@ int	read_line(t_data *p)
 	{
 		printf("exit\n");
 		return (0);
-	}
-	if (p->input[0] == '\0')
-	{
-		free(p->input);
-		return (1);
 	}
 	return (1);
 }
