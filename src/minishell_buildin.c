@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/05 17:20:34 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:31:35 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int is_builtin(char *str)
         return 0;
     if (ft_strncmp(str, "echo", 4) == 0)
         return 1;
+    if (ft_strncmp(str, "exit", 4) == 0)
+        return 1;
     if (ft_strncmp(str, "cd", 2) == 0)
         return 1;
     if (ft_strncmp(str, "pwd", 3) == 0)
@@ -73,6 +75,11 @@ void build_in(t_data *p, t_export **head)
     value = 0;
 	if (ft_strcmp(p->cmd_args[0], "pwd") == 0) //&& (p->args == 1))
         p->exit_code = pwd(p);
+    else if (ft_strcmp(p->cmd_args[0], "exit") == 0)
+    {
+        exit_main(p);
+        return ;
+    }
 	else if (ft_strcmp(p->cmd_args[0], "cd") == 0)
 		p->exit_code = cd(p, value);
     else if (ft_strcmp(p->cmd_args[0], "echo") == 0 && (!p->cmd_args[1]))

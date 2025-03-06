@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/05 17:40:38 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:42:05 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,11 +226,19 @@ void		free_already_allocated(char **new_paths, int len);
 void remove_quotes_args(char **args);
 void remove_quotes(char *arg);
 
-
+//expansion
 void expand_all_tokens(char **tokens, t_export *head);
 char *expand_single_token(char *oldtoken, t_export *head);
 char *handle_expansion(char *oldtoken, int *i_ptr, char *newstr, int *dest_ptr, t_export *head);
 int copy_value(char *dest_str, int dest, char *value);
 int parse_var_name(char *old, int *i_ptr, char *var_name);
 
+//input is exit
+void cleanup_and_exit(t_data *p, int code);
+int exit_print_too_many(t_data *p);
+void exit_print(t_data *p, char *arg);
+int is_numeric(char *str);
+int	input_is_exit(t_data *p);
+int exit_main(t_data *p);
+int count_tokens_2d(char **arg);
 #endif 

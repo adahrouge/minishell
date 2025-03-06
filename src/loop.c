@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/05 17:39:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:40:53 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 	{
 		pipes(p, *head);
 		free(p->input);
+		return ;
 	}
 	else if (input_contains_pipe(p))
-		free(p->input);
-	else
 	{
+		free(p->input);
+		return ;
+	}
 		read_command_line(p);
 		expand_all_tokens(p->cmd_args, *head);
 		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
@@ -40,11 +42,13 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 			external_commands(p, *head, path_env);
 		free_split(p->cmd_args);
 		free(p->input);
-	}
 }
+
 void remove_quotes_args(char **args)
 {
-    int i = 0;
+    int i;
+
+	i = 0;
     while (args[i])
     {
         remove_quotes(args[i]);
@@ -77,8 +81,6 @@ int	check_loop_result(t_data *p)
 		return (-1);
 	if (input_is_backslash(p))
 		return (1);
-	if (input_is_exit(p))
-		return (-1);
 	if (input_is_space(p))
 		return (1);
 	if (input_is_redirect(p))
@@ -109,6 +111,7 @@ void	loop(t_data *p, t_export **head)
 {
 	int	special_result;
 
+	p->exit_code = 0; // if its the first case
 	while (1)
 	{
 		if (!read_line(p))
@@ -122,59 +125,3 @@ void	loop(t_data *p, t_export **head)
 		handle_pipe_or_command(p, head);
 	}
 }
-// void loop(t_data *p, t_export **head)
-// {
-//     while (1)
-//     {
-//         p->input = readline("minishell > ");
-// 		if (p->input == NULL)
-// 		{
-// 			printf("exit\n");
-// 			break;	
-// 		}
-// 		if (p->input[0] == '\0')
-// 		{
-// 			free(p->input);
-// 			continue;
-// 		}
-// 		if (input_is_null(p))
-// 			break;
-//         if (input_is_backslash(p))
-//             continue;
-//         if (input_is_exit(p))
-//             break;
-// 		if (input_is_space(p))
-// 			continue;
-// 		if (input_is_redirect(p))
-// 			continue;
-// 		if (input_is_slash(p))
-// 			continue;
-// 		if (input_is_dash(p))
-// 			continue;
-// 		if (input_is_and(p))
-// 			continue;
-// 		if (input_is_clear(p))
-// 			continue;
-//         add_history(p->input);
-// 		if (input_contains_pipe(p) && pipeInputCorrect(p))
-// 		{
-// 			pipes(p, *head);
-// 			continue;
-// 		}
-// 		else if (input_contains_pipe(p))
-// 		{
-// 			free(p->input);
-// 			continue;
-// 		}
-// 		else
-// 		{
-//         read_command_line(p);
-// 		if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))
-//         	build_in(p, head);
-// 			else
-// 			 external_commands(p, *head);
-// 		free_split(p->cmd_args);
-//         free(p->input);
-// 		}
-// 	}
-// }
