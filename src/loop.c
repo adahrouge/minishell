@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/06 17:40:53 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/07 20:47:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 		return ;
 	}
 		read_command_line(p);
-		expand_all_tokens(p->cmd_args, *head);
 		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
-			is_echo = 1;
+		is_echo = 1;
 		if (!is_echo)
+		{
+			expand_all_tokens(p->cmd_args, *head);
 			remove_quotes_args(p->cmd_args);
+		}
 		if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))
 			build_in(p, head);
 		else

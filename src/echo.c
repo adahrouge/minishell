@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:46:27 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/20 16:22:18 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/07 20:58:18 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void echo_print_arg(char *arg, t_export *head)
     int in_double;
     int in_single;
     int consumed;
-
+	
     i = 0;
     in_double = 0;
     in_single = 0;
@@ -75,35 +75,6 @@ void echo_print_arg(char *arg, t_export *head)
     }
 }
 
-// void echo_print_arg(char *arg, t_export *head)
-// {
-//     int i = 0;
-//     while (arg[i])
-//     {
-//         // If you want to skip expansions if the token was entirely single-quoted, do a check here
-
-//         // If you see a literal `'`, print it
-//         if (arg[i] == '\'')
-//         {
-//             // Just print the `'` character
-//             write(1, &arg[i], 1);
-//             i++;
-//         }
-//         else if (arg[i] == '$')
-//         {
-//             // Expand if you want expansions
-//             // e.g., expand_variable()
-//             ...
-//         }
-//         else
-//         {
-//             // normal char
-//             write(1, &arg[i], 1);
-//             i++;
-//         }
-//     }
-// }
-
 int	echo_conditions(t_data *p, int *i, int *no_newline)
 {
 	if (!p->cmd_args[*i])
@@ -129,7 +100,6 @@ int	echo(t_data *p, t_export *head)
 {
 	int	i;
 	int	no_newline;
-
 	i = 1;
 	no_newline = 0;
 	while (p->cmd_args[i] && ft_strcmp(p->cmd_args[i], "-n") == 0)
@@ -152,3 +122,4 @@ int	echo(t_data *p, t_export *head)
 		write(1, "\n", 1);
 	return (0);
 }
+	
