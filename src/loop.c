@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/07 20:47:03 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:27:31 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 		return ;
 	}
 		read_command_line(p);
+		executable(p, *head);
 		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
 		is_echo = 1;
 		if (!is_echo)

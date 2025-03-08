@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/20 16:26:12 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:11:20 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int argc, char **argv, char **environ)
 		return (0);
 	}
 	arrange_export(head);
+	update_shlvl(&head);
 	loop(p, &head);
 	free(p);
 	free_environ(my_environ);

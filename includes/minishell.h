@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/06 15:42:05 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:07:54 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char		*ft_strcpy(char *dest, const char *src);
 char		**ft_split(char *s, char c);
 char		*word_dup(const char *str, int start, int finish);
 void		ft_putstr_fd(char *s, int fd);
+char *ft_itoa(int n);
+
 
 //echo
 int			echo(t_data *p, t_export *head);
@@ -220,7 +222,10 @@ void		free_2d_array(char **array);
 void		free_pipe(t_data *p, int num_commands);
 void		free_already_allocated(char **new_paths, int len);
 
-
+//executable
+int has_slash(char *arg);
+void update_shlvl(t_export **head);
+void executable(t_data *p, t_export*head);
 
 
 void remove_quotes_args(char **args);

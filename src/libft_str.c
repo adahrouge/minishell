@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:58:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/19 11:59:01 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:07:45 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,42 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strcpy(ptr + len1, s2);
 	ptr[len1 + len2] = '\0';
 	return (ptr);
+}
+
+char *ft_itoa(int n)
+{
+    long nb;
+    int sign;
+    int len;
+    char *res;
+
+    nb = n;
+    sign = 0;
+    if (nb < 0)
+    {
+        sign = 1;
+        nb = -nb;
+    }
+    len = 1;
+    {
+        long tmp = nb;
+        while (tmp >= 10)
+        {
+            tmp /= 10;
+            len++;
+        }
+    }
+    res = malloc(len + sign + 1);
+    if (!res)
+        return (NULL);
+    res[len + sign] = '\0';
+    while (len > 0)
+    {
+        res[len + sign - 1] = (nb % 10) + '0';
+        nb /= 10;
+        len--;
+    }
+    if (sign)
+        res[0] = '-';
+    return (res);
 }
