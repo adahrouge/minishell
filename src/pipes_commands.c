@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:52:09 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 11:37:52 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:08:37 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	execute_command_pipes(t_data *p, t_export *head, int i)
 		free(p->correct_path);
 	free_2d_array(envp);
 	free_2d_array(cmd_args);
-	return 1;
+	return (1);
 }
 
 // get ls from ls - l

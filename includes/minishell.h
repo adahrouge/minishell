@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 12:14:08 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:30:18 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			pwd(t_data *p);
 int			cd(t_data *p, int value);
 int			is_builtin(char *str);
 int			read_line(t_data *p);
-int			check_loop_result(t_data *p);
+//int			check_loop_result(t_data *p);
 void		handle_pipe_or_command(t_data *p, t_export **head);
 
 //signals

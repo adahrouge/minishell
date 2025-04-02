@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 11:38:40 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 21:07:37 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,17 @@ void	pipe_prepare(t_data *p)
 void	pipe_wait_loop(t_data *p)
 {
 	int	j;
-
+	int status = 0;
+	pid_t w;
 	j = 0;
 	while (j < p->num_commands)
 	{
-		waitpid(p->pids[j], NULL, 0);
+		w = waitpid(p->pids[j], &status, 0);
+		if (w == -1)
+			perror("waitpid failed");
 		j++;
 	}
+
 }
 
 void	pipe_cleanup(t_data *p)

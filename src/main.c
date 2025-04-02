@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 12:21:03 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:34:58 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	main(int argc, char **argv, char **environ)
 	char		**my_environ;
 
 	if (argc != 1 || ft_strcmp(argv[0], "./minishell") != 0)
+	{
+		printf("arguments aren't valid\n");
 		return (0);
+	}
 	my_environ = copy_environ(environ);
 	setup_signal_handlers();
 	p = malloc(sizeof(t_data));

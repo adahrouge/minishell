@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 12:25:25 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:41:34 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 		return ;
 	}
 		read_command_line(p);
-		executable(p, *head);
+		if (has_slash(p->cmd_args[0]))
+		{
+			executable(p, *head);
+			free_split(p->cmd_args);
+			free(p->input);
+			return ;
+		}
 		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
 		is_echo = 1;
 		if (!is_echo)
@@ -88,8 +94,8 @@ int	check_loop_result(t_data *p)
 		return (1);
 	if (input_is_redirect(p))
 		return (1);
-	if (input_is_slash(p))
-		return (1);
+	// if (input_is_slash(p))
+	// 	return (1);
 	if (input_is_dash(p))
 		return (1);
 	if (input_is_and(p))
@@ -116,7 +122,7 @@ void	loop(t_data *p, t_export **head)
 
 	arrange_export(*head);
 	update_shlvl(head);
-	p->exit_code = 0; // if its the first case
+	p->exit_code = 0;
 	while (1)
 	{
 		if (!read_line(p))

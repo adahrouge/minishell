@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:37:04 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/01 17:23:24 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:35:13 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int has_slash(char *arg)
 }
 void update_shlvl(t_export **head)
 {
-	char *old;
-	int lvl;
-	char *arg;
-	char *temp;
+	char	*old;
+	int		lvl;
+	char	*arg;
+	char	*temp;
 
 	old = my_getenv("SHLVL", *head);
 	if (!old)
@@ -57,22 +57,24 @@ void executable(t_data *p, t_export *head)
 	envp = convert_list_to_array(head);
 	if (has_slash(p->cmd_args[0]))
 	{
-		if (access(cmd, F_OK) != 0)
+		if (access(p->cmd_args[0], X_OK) == 0)
+			execute_command(ft_strdup(p->cmd_args[0]), p, head);
+		else if (access(cmd, F_OK) != 0)
 		{
 			write(2, "No such file: ", 14);
 			write(2, cmd, ft_strlen(cmd));
 			write(2, "\n", 1);
 			exit(127);
 		}
-		if (access(cmd, X_OK) != 0)
+		else if (access(cmd, X_OK) != 0)
 		{
 			write(2, "Permission denied: ", 19);
 			write(2, cmd, ft_strlen(cmd));
 			write(2, "\n", 1);
 			exit(126);
 		}
-		execve(cmd, p->cmd_args, envp);
-		exit(126);
+		else
+			execve(cmd, p->cmd_args, envp);
 	}
 	free_2d_array(envp);
 }
