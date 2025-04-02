@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:58:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/08 18:07:45 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:18:22 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char *ft_itoa(int n)
     int sign;
     int len;
     char *res;
+	long tmp;
 
     nb = n;
     sign = 0;
@@ -76,7 +77,7 @@ char *ft_itoa(int n)
     }
     len = 1;
     {
-        long tmp = nb;
+        tmp = nb;
         while (tmp >= 10)
         {
             tmp /= 10;

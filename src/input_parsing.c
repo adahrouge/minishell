@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 08:43:23 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/06 15:20:58 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:54:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	input_is_redirect(t_data *p)
 	{
 		write(1, "bash: syntax error near unexpected token `>'\n", 45);
 		free(p->input);
-		return (1);
 		p->exit_code = 2;
+		return (1);
 	}
 	else if (ft_strcmp(p->input, "><") == 0)
 	{

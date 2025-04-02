@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/08 18:07:54 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:14:08 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void		first_command(t_data *p, int i);
 void		middle_commands(t_data *p, int i);
 void		last_command(t_data *p, int i);
 void		create_fork(t_data *p, t_export *head, int *i);
-void		execute_command_pipes(t_data *p, t_export *head, int i);
+int			execute_command_pipes(t_data *p, t_export *head, int i);
 char		**convert_list_to_array(t_export *head);
 void		parse_pipe_arg(t_data *p);
 void		create_pipe_arg(t_data *p, int i);
@@ -207,7 +207,7 @@ int			input_check_pipe(t_data *p, int *i,
 				int *in_quotes, int *segment_len);
 
 //debug
-
+void free_all(t_data *p, t_export *head, char **my_environ);
 //quote_split.c
 void		skip_quotes(const char *str, int *i);
 int			count_tokens(const char *str);

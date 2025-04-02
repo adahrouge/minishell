@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/28 14:49:10 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:38:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,4 @@ void	pipes(t_data *p, t_export *head)
 	pipe_fork_loop(p, head);
 	pipe_wait_loop(p);
 	pipe_cleanup(p);
-	p->exit_code = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/08 18:25:30 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:02:22 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,19 @@ void	execute_command(char *full_path, t_data *p, t_export *head)
 void	parent_execution(pid_t pid, int status, t_data *p, char *full_path)
 {
 	if (waitpid(pid, &status, 0) == -1)
-		p->exit_code = 1;
+	{	
+		p->exit_code = 128 + WTERMSIG(status);
+	}
 	else
 		if (WIFEXITED(status))
+		{
 			p->exit_code = WEXITSTATUS(status);
+		}
 	else if (WIFSIGNALED(status))
-		p->exit_code = 128 + WTERMSIG(status);
+		{
+			p->exit_code = 128 + WTERMSIG(status);
+			printf("in parent_executation function, SIGNAL INTERUPTED THE OPERATION\n");
+		}
 	free(full_path);
 }
 
@@ -95,7 +102,7 @@ void	external_commands(t_data *p, t_export *head, char *path_env)
 	else
 	{
 		printf("bash: %s: command not found\n", p->cmd_args[0]);
-		p->exit_code = 127;
+		p->exit_code = 127; //ls000 for example
 	}
 	free_external_commands(paths, new_paths);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:52:09 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/28 14:57:50 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:37:52 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	last_command(t_data *p, int i)
 	close(p->pipefd[i - 1][1]);
 }
 
-void	execute_command_pipes(t_data *p, t_export *head, int i)
+int	execute_command_pipes(t_data *p, t_export *head, int i)
 {
 	char	**envp;
 	char	**cmd_args;
@@ -55,12 +55,11 @@ void	execute_command_pipes(t_data *p, t_export *head, int i)
 	if (p->correct_path)
 		execve(p->correct_path, cmd_args, envp);
 	perror("execve failed");
-	p->exit_code = 1;
 	if (p->correct_path)
 		free(p->correct_path);
 	free_2d_array(envp);
 	free_2d_array(cmd_args);
-	exit(EXIT_FAILURE);
+	return 1;
 }
 
 // get ls from ls - l

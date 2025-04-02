@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/08 18:27:31 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:25:25 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_pipe_or_command(t_data *p, t_export **head)
 {
 	char	*path_env;
-	int is_echo;
+	int		is_echo;
 
 	is_echo = 0;
 	path_env = NULL;
@@ -114,6 +114,8 @@ void	loop(t_data *p, t_export **head)
 {
 	int	special_result;
 
+	arrange_export(*head);
+	update_shlvl(head);
 	p->exit_code = 0; // if its the first case
 	while (1)
 	{

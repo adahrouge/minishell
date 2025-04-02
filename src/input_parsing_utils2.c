@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:56:13 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/06 14:03:30 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:16:48 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	pipe_input_correct(t_data *p)
 	if (segment_len == 0)
 	{
 		printf("zsh: parse error near '|'\n");
+		p->exit_code = 2;
 		return (0);
 	}
 	return (1);

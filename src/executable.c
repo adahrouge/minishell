@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:37:04 by adahroug          #+#    #+#             */
-/*   Updated: 2025/03/08 18:08:41 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:23:24 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void executable(t_data *p, t_export *head)
 			write(2, "No such file: ", 14);
 			write(2, cmd, ft_strlen(cmd));
 			write(2, "\n", 1);
-			p->exit_code = 127;
 			exit(127);
 		}
 		if (access(cmd, X_OK) != 0)
@@ -73,7 +72,7 @@ void executable(t_data *p, t_export *head)
 			exit(126);
 		}
 		execve(cmd, p->cmd_args, envp);
-		perror("excve executable");
 		exit(126);
 	}
+	free_2d_array(envp);
 }
