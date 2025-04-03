@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 12:34:58 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:52:04 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	main(int argc, char **argv, char **environ)
 	free_all(p, head, my_environ);
 	return (0);
 }
-void free_all(t_data *p, t_export *head, char **my_environ)
+
+void	free_all(t_data *p, t_export *head, char **my_environ)
 {
 	free(p);
 	free_environ(my_environ);

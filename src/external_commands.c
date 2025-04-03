@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 19:33:28 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:04:32 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,12 @@ void	parent_execution(pid_t pid, int status, t_data *p, char *full_path)
 	}
 	else
 		if (WIFEXITED(status))
-		{
 			p->exit_code = WEXITSTATUS(status);
-		}
 	else if (WIFSIGNALED(status))
-		{
-			p->exit_code = 128 + WTERMSIG(status);
-			printf("in parent_executation function, SIGNAL INTERUPTED THE OPERATION\n");
-		}
+	{
+		p->exit_code = 128 + WTERMSIG(status);
+		printf("in parent_executation function\n");
+	}
 	free(full_path);
 }
 
@@ -102,7 +100,7 @@ void	external_commands(t_data *p, t_export *head, char *path_env)
 	else
 	{
 		printf("bash: %s: command not found\n", p->cmd_args[0]);
-		p->exit_code = 127; //ls000 for example
+		p->exit_code = 127; //ls00 ex
 	}
 	free_external_commands(paths, new_paths);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 19:41:34 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:26:10 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,35 +53,35 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 		free(p->input);
 }
 
-void remove_quotes_args(char **args)
+void	remove_quotes_args(char **args)
 {
-    int i;
+	int i;
 
 	i = 0;
-    while (args[i])
-    {
-        remove_quotes(args[i]);
-        i++;
-    }
+	while (args[i])
+	{
+		remove_quotes(args[i]);
+		i++;
+	}
 }
 
-void remove_quotes(char *arg)
+void	remove_quotes(char *arg)
 {
-    int src;
-    int dst;
+	int	src;
+	int	dst;
 
 	src = 0;
 	dst = 0;
-    while (arg[src])
-    {
-        if (arg[src] != '"' && arg[src] != '\'')
-        {
-            arg[dst] = arg[src];
-            dst++;
-        }
-        src++;
-    }
-    arg[dst] = '\0';
+	while (arg[src])
+	{
+		if (arg[src] != '"' && arg[src] != '\'')
+		{
+			arg[dst] = arg[src];
+			dst++;
+		}
+		src++;
+	}
+	arg[dst] = '\0';
 }
 
 int	check_loop_result(t_data *p)

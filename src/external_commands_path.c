@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:53:36 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/19 11:55:29 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:23:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	**convert_list_to_array(t_export *head)
 	t_export	*ptr;
 
 	ptr = head;
-	i = 0;
 	i = size_list(head);
 	envp = malloc((i + 1) * sizeof(char *));
 	if (!envp)

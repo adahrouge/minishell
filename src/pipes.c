@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 21:07:37 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:58:41 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ void	pipe_prepare(t_data *p)
 
 void	pipe_wait_loop(t_data *p)
 {
-	int	j;
-	int status = 0;
-	pid_t w;
+	int		j;
+	int		status;
+	pid_t	w;
+
+	status = 0;
 	j = 0;
 	while (j < p->num_commands)
 	{
@@ -62,21 +64,21 @@ void	pipe_wait_loop(t_data *p)
 			perror("waitpid failed");
 		j++;
 	}
-
 }
 
-void	pipe_cleanup(t_data *p)
+
+void pipe_cleanup(t_data *p)
 {
-	free(p->pids);
-	free_pipe(p, p->nb_of_pipes);
-	free_2d_array(p->store_pipe_arg);
-	if (p->full_path_pipe)
-	{
-		free(p->full_path_pipe);
-		p->full_path_pipe = NULL;
-	}
-}
+    free(p->pids);
+    free_pipe(p, p->nb_of_pipes);
+    free_2d_array(p->store_pipe_arg);
 
+    if (p->full_path_pipe)
+    {
+        free(p->full_path_pipe);
+        p->full_path_pipe = NULL;
+    }
+}
 void	pipes(t_data *p, t_export *head)
 {
 	pipe_prepare(p);

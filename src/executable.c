@@ -6,15 +6,15 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:37:04 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 19:35:13 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:27:46 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int has_slash(char *arg)
+int	has_slash(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i] != '\0')
@@ -25,7 +25,8 @@ int has_slash(char *arg)
 	}
 	return (0);
 }
-void update_shlvl(t_export **head)
+
+void	update_shlvl(t_export **head)
 {
 	char	*old;
 	int		lvl;
@@ -48,10 +49,11 @@ void update_shlvl(t_export **head)
 	process_export_args(arg, head);
 	free(arg);
 }
-void executable(t_data *p, t_export *head)
+
+void	executable(t_data *p, t_export *head)
 {
-	char **envp;
-	char *cmd;
+	char	**envp;
+	char	*cmd;
 
 	cmd = p->cmd_args[0];
 	envp = convert_list_to_array(head);
@@ -61,17 +63,17 @@ void executable(t_data *p, t_export *head)
 			execute_command(ft_strdup(p->cmd_args[0]), p, head);
 		else if (access(cmd, F_OK) != 0)
 		{
-			write(2, "No such file: ", 14);
-			write(2, cmd, ft_strlen(cmd));
-			write(2, "\n", 1);
-			exit(127);
+			printf("No such file: %s\n", cmd);
+			p->exit_code = 127;
+			free_2d_array(envp);
+			return ;
 		}
 		else if (access(cmd, X_OK) != 0)
 		{
-			write(2, "Permission denied: ", 19);
-			write(2, cmd, ft_strlen(cmd));
-			write(2, "\n", 1);
-			exit(126);
+			printf("Permission denied: %s\n", cmd);
+			p->exit_code = 126;
+			free_2d_array(envp);
+			return ;
 		}
 		else
 			execve(cmd, p->cmd_args, envp);

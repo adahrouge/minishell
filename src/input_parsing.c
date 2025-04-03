@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 08:43:23 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 11:54:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:58:08 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	input_is_backslash(t_data *p)
 	}
 	return (0);
 }
-	
+
 int	input_is_space(t_data *p)
 {
 	int	i;

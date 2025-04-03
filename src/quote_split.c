@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:45:24 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/01 18:08:41 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:53:32 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,26 @@ int	count_tokens(const char *str)
 	}
 	return (count);
 }
-char *copy_token(const char *str, int start, int end)
-{
-    char *token;
-    int src;
-    int dst;
 
-    token = malloc(end - start + 1);
-    if (!token)
-        return NULL;
-    src = start;
-    dst = 0;
-    while (src < end)
-    {
-        token[dst] = str[src];
-        dst++;
-        src++;
-    }
-    token[dst] = '\0';
-    return token;
+char	*copy_token(const char *str, int start, int end)
+{
+	char	*token;
+	int		src;
+	int		dst;
+
+	token = malloc(end - start + 1);
+	if (!token)
+		return (NULL);
+	src = start;
+	dst = 0;
+	while (src < end)
+	{
+		token[dst] = str[src];
+		dst++;
+		src++;
+	}
+	token[dst] = '\0';
+	return (token);
 }
 
 char	**split_cmd_quoted(const char *str)

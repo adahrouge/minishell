@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:02:08 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 19:53:28 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:52:27 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	create_single_arg(t_data *p, int *len, int *count, int start)
 	while (i < *len)
 	{
 		p->store_pipe_arg[*count][i] = p->input[start + i];
-		//p->store_pipe_arg[*count + 1] = NULL;
 		i++;
 	}
 	p->store_pipe_arg[*count][*len] = '\0';
@@ -66,7 +65,6 @@ void	trim_pipe_args(t_data *p)
 	int	i;
 
 	i = 0;
-
 	while (p->store_pipe_arg[i] != NULL)
 	{
 		trim_whitespaces(p->store_pipe_arg[i]);

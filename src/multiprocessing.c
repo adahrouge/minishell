@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:00:35 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 21:13:57 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:58:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	handle_child(t_data *p, t_export *head, int i)
 {
 	// fprintf(stderr, "[DEBUG] Child #%d created -> command: %s\n", i, p->store_pipe_arg[i]);
-
 	if (i == 0 && p->num_commands > 1)
 		first_command(p, i);
 	else if (i == p->num_commands - 1)
@@ -24,7 +23,6 @@ void	handle_child(t_data *p, t_export *head, int i)
 		middle_commands(p, i);
 	p->cmd_args = split_cmd_quoted(p->store_pipe_arg[i]);
 	// fprintf(stderr, "[DEBUG] Child #%d tokens[0] = %s\n", i, p->cmd_args[0]);
-
 	if (is_builtin(p->cmd_args[0]))
 	{
 		build_in(p, &head);
