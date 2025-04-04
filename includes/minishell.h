@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 19:30:18 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:31:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void		free_external_commands(char **paths, char **new_paths);
 int			size_list(t_export *head);
 
 //pipes
-
+void close_all_pipes(t_data *p);
 void		create_pipes(t_data *p);
 void		first_command(t_data *p, int i);
 void		middle_commands(t_data *p, int i);

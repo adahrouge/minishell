@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 20:58:41 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:29:22 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,3 +86,18 @@ void	pipes(t_data *p, t_export *head)
 	pipe_wait_loop(p);
 	pipe_cleanup(p);
 }
+void close_all_pipes(t_data *p)
+{
+    int i;
+
+    if (!p->pipefd)
+        return;
+    i = 0;
+    while (i < p->nb_of_pipes)
+    {
+        close(p->pipefd[i][0]);
+        close(p->pipefd[i][1]);
+        i++;
+    }
+}
+
