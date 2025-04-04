@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 12:29:22 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:57:21 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,18 @@ void	pipe_wait_loop(t_data *p)
 	}
 }
 
-
-void pipe_cleanup(t_data *p)
+void	pipe_cleanup(t_data *p)
 {
-    free(p->pids);
-    free_pipe(p, p->nb_of_pipes);
-    free_2d_array(p->store_pipe_arg);
-
-    if (p->full_path_pipe)
-    {
-        free(p->full_path_pipe);
-        p->full_path_pipe = NULL;
-    }
+	free(p->pids);
+	free_pipe(p, p->nb_of_pipes);
+	free_2d_array(p->store_pipe_arg);
+	if (p->full_path_pipe)
+	{
+		free(p->full_path_pipe);
+		p->full_path_pipe = NULL;
+	}
 }
+
 void	pipes(t_data *p, t_export *head)
 {
 	pipe_prepare(p);
@@ -86,18 +85,3 @@ void	pipes(t_data *p, t_export *head)
 	pipe_wait_loop(p);
 	pipe_cleanup(p);
 }
-void close_all_pipes(t_data *p)
-{
-    int i;
-
-    if (!p->pipefd)
-        return;
-    i = 0;
-    while (i < p->nb_of_pipes)
-    {
-        close(p->pipefd[i][0]);
-        close(p->pipefd[i][1]);
-        i++;
-    }
-}
-

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 22:31:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/02/16 16:29:12 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:57:55 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,21 @@ void	free_already_allocated(char **new_paths, int len)
 		i++;
 	}
 	free(new_paths);
+}
+
+int	count_tokens_2d(char **arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i] != NULL)
+		i++;
+	return (i);
+}
+
+void	cleanup_and_exit(t_data *p, int code)
+{
+	if (p->input)
+		free(p->input);
+	exit(code);
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 20:26:10 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:37:24 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +14,43 @@
 
 void	handle_pipe_or_command(t_data *p, t_export **head)
 {
-	char	*path_env;
-	int		is_echo;
-
-	is_echo = 0;
-	path_env = NULL;
 	if (input_contains_pipe(p) && pipe_input_correct(p))
 	{
 		pipes(p, *head);
 		free(p->input);
 		return ;
 	}
-	else if (input_contains_pipe(p))
+	if (input_contains_pipe(p))
 	{
 		free(p->input);
 		return ;
 	}
-		read_command_line(p);
-		if (has_slash(p->cmd_args[0]))
-		{
-			executable(p, *head);
-			free_split(p->cmd_args);
-			free(p->input);
-			return ;
-		}
-		if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
+	read_command_line(p);
+	handle_command_execution(p, head);
+}
+
+void	handle_command_execution(t_data *p, t_export **head)
+{
+	char	*path_env;
+	int		is_echo;
+
+	is_echo = 0;
+	path_env = NULL;
+	if (has_slash(p->cmd_args[0]))
+	{
+		executable_main(p, head);
+		return ;
+	}
+	if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
 		is_echo = 1;
-		if (!is_echo)
-		{
-			expand_all_tokens(p->cmd_args, *head);
-			remove_quotes_args(p->cmd_args);
-		}
-		if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))
-			build_in(p, head);
-		else
-			external_commands(p, *head, path_env);
-		free_split(p->cmd_args);
-		free(p->input);
-}
-
-void	remove_quotes_args(char **args)
-{
-	int i;
-
-	i = 0;
-	while (args[i])
-	{
-		remove_quotes(args[i]);
-		i++;
-	}
-}
-
-void	remove_quotes(char *arg)
-{
-	int	src;
-	int	dst;
-
-	src = 0;
-	dst = 0;
-	while (arg[src])
-	{
-		if (arg[src] != '"' && arg[src] != '\'')
-		{
-			arg[dst] = arg[src];
-			dst++;
-		}
-		src++;
-	}
-	arg[dst] = '\0';
+	if (!is_echo)
+		trim_arg(p, head);
+	if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))
+		build_in(p, head);
+	else
+		external_commands(p, *head, path_env);
+	free_split(p->cmd_args);
+	free(p->input);
 }
 
 int	check_loop_result(t_data *p)
@@ -94,8 +63,6 @@ int	check_loop_result(t_data *p)
 		return (1);
 	if (input_is_redirect(p))
 		return (1);
-	// if (input_is_slash(p))
-	// 	return (1);
 	if (input_is_dash(p))
 		return (1);
 	if (input_is_and(p))

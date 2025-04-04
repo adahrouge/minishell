@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:37:04 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 20:27:46 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:27:14 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,32 @@ void	executable(t_data *p, t_export *head)
 			execute_command(ft_strdup(p->cmd_args[0]), p, head);
 		else if (access(cmd, F_OK) != 0)
 		{
-			printf("No such file: %s\n", cmd);
-			p->exit_code = 127;
-			free_2d_array(envp);
+			executable_error(p, cmd, envp);
 			return ;
 		}
 		else if (access(cmd, X_OK) != 0)
 		{
-			printf("Permission denied: %s\n", cmd);
-			p->exit_code = 126;
-			free_2d_array(envp);
+			executable_error(p, cmd, envp);
 			return ;
 		}
 		else
 			execve(cmd, p->cmd_args, envp);
 	}
 	free_2d_array(envp);
+}
+
+void	executable_error(t_data *p, char *cmd, char **envp)
+{
+	printf("No such file: %s\n", cmd);
+	p->exit_code = 127;
+	free_2d_array(envp);
+	return ;
+}
+
+void	executable_main(t_data *p, t_export **head)
+{
+	executable(p, *head);
+	free_split(p->cmd_args);
+	free(p->input);
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 08:43:23 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 19:58:08 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:26:26 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ int	input_is_redirect(t_data *p)
 		return (1);
 	}
 	return (0);
+}
+
+void	remove_quotes_args(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		remove_quotes(args[i]);
+		i++;
+	}
 }

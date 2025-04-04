@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 20:04:32 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:26:56 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	external_commands(t_data *p, t_export *head, char *path_env)
 	else
 	{
 		printf("bash: %s: command not found\n", p->cmd_args[0]);
-		p->exit_code = 127; //ls00 ex
+		p->exit_code = 127;
 	}
 	free_external_commands(paths, new_paths);
 	return ;

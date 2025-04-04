@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 19:57:09 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:54:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,28 @@ int	is_builtin(char *str)
 
 void	build_in(t_data *p, t_export **head)
 {
-	int value;
+	int	value;
 
 	value = 0;
-	if (ft_strcmp(p->cmd_args[0], "pwd") == 0) //&& (p->args == 1))
-        p->exit_code = pwd(p);
-    else if (ft_strcmp(p->cmd_args[0], "exit") == 0)
-    {
-        exit_main(p);
-        return ;
-    }
+	if (ft_strcmp(p->cmd_args[0], "pwd") == 0)
+		p->exit_code = pwd(p);
+	else if (ft_strcmp(p->cmd_args[0], "exit") == 0)
+		exit_main(p);
 	else if (ft_strcmp(p->cmd_args[0], "cd") == 0)
 		p->exit_code = cd(p, value);
-    else if (ft_strcmp(p->cmd_args[0], "echo") == 0 && (!p->cmd_args[1]))
-    {
-        write(1, "\n", 1);
-        p->exit_code = 0;
-        return ;
-    }
-    else if (ft_strcmp(p->cmd_args[0], "echo") == 0)
-        p->exit_code = echo(p, *head);
-     else if (ft_strcmp(p->cmd_args[0], "export") == 0)
-     {
-         p->exit_code = export_main(p, head);
-     }
-     else if (ft_strcmp(p->cmd_args[0], "env") == 0)
-        p->exit_code = env(*head);
-     else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
-        p->exit_code = ft_unset_all(p->input, head);
-    return ;
+	else if (ft_strcmp(p->cmd_args[0], "echo") == 0 && (!p->cmd_args[1]))
+	{
+		write(1, "\n", 1);
+		p->exit_code = 0;
+		return ;
+	}
+	else if (ft_strcmp(p->cmd_args[0], "echo") == 0)
+		p->exit_code = echo(p, *head);
+	else if (ft_strcmp(p->cmd_args[0], "export") == 0)
+		p->exit_code = export_main(p, head);
+	else if (ft_strcmp(p->cmd_args[0], "env") == 0)
+		p->exit_code = env(*head);
+	else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
+		p->exit_code = ft_unset_all(p->input, head);
+	return ;
 }
-

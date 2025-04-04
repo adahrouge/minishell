@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:02:08 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 19:52:27 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:57:30 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,21 @@ void	trim_pipe_args(t_data *p)
 	while (p->store_pipe_arg[i] != NULL)
 	{
 		trim_whitespaces(p->store_pipe_arg[i]);
+		i++;
+	}
+}
+
+void	close_all_pipes(t_data *p)
+{
+	int	i;
+
+	if (!p->pipefd)
+		return ;
+	i = 0;
+	while (i < p->nb_of_pipes)
+	{
+		close(p->pipefd[i][0]);
+		close(p->pipefd[i][1]);
 		i++;
 	}
 }

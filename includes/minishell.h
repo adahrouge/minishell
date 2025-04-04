@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 12:31:40 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:56:43 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ typedef struct s_export
 	char			*value;
 }	t_export;
 
+typedef struct s_expansion
+{
+	int	i;
+	int	dest;
+}	t_expansion;
+
 //main functions + builtins
 void		build_in(t_data *p, t_export **head);
 void		loop(t_data *p, t_export **head);
@@ -78,7 +84,8 @@ int			pwd(t_data *p);
 int			cd(t_data *p, int value);
 int			is_builtin(char *str);
 int			read_line(t_data *p);
-//int			check_loop_result(t_data *p);
+void		handle_command_execution(t_data *p, t_export **head);
+int			check_loop_result(t_data *p);
 void		handle_pipe_or_command(t_data *p, t_export **head);
 
 //signals
@@ -114,8 +121,7 @@ char		*ft_strcpy(char *dest, const char *src);
 char		**ft_split(char *s, char c);
 char		*word_dup(const char *str, int start, int finish);
 void		ft_putstr_fd(char *s, int fd);
-char *ft_itoa(int n);
-
+char		*ft_itoa(int n);
 
 //echo
 int			echo(t_data *p, t_export *head);
@@ -129,6 +135,7 @@ int			expand_variable(char *arg, t_export *head);
 void		echo_print_arg(char *arg, t_export *head);
 int			echo_conditions(t_data *p, int *i, int *no_newline);
 int			exit_status(t_data *p);
+void		trim_arg(t_data *p, t_export **head);
 
 //export env unset
 int			export(t_export *head);
@@ -171,7 +178,7 @@ void		free_external_commands(char **paths, char **new_paths);
 int			size_list(t_export *head);
 
 //pipes
-void close_all_pipes(t_data *p);
+void		close_all_pipes(t_data *p);
 void		create_pipes(t_data *p);
 void		first_command(t_data *p, int i);
 void		middle_commands(t_data *p, int i);
@@ -207,7 +214,7 @@ int			input_check_pipe(t_data *p, int *i,
 				int *in_quotes, int *segment_len);
 
 //debug
-void free_all(t_data *p, t_export *head, char **my_environ);
+void		free_all(t_data *p, t_export *head, char **my_environ);
 //quote_split.c
 void		skip_quotes(const char *str, int *i);
 int			count_tokens(const char *str);
@@ -223,27 +230,27 @@ void		free_pipe(t_data *p, int num_commands);
 void		free_already_allocated(char **new_paths, int len);
 
 //executable
-int has_slash(char *arg);
-void update_shlvl(t_export **head);
-void executable(t_data *p, t_export*head);
-
-
-void remove_quotes_args(char **args);
-void remove_quotes(char *arg);
-
+int			has_slash(char *arg);
+void		update_shlvl(t_export **head);
+void		executable(t_data *p, t_export*head);
+void		remove_quotes_args(char **args);
+void		remove_quotes(char *arg);
+void		executable_error(t_data *p, char *cmd, char **envp);
+void		executable_main(t_data *p, t_export **head);
 //expansion
-void expand_all_tokens(char **tokens, t_export *head);
-char *expand_single_token(char *oldtoken, t_export *head);
-char *handle_expansion(char *oldtoken, int *i_ptr, char *newstr, int *dest_ptr, t_export *head);
-int copy_value(char *dest_str, int dest, char *value);
-int parse_var_name(char *old, int *i_ptr, char *var_name);
+char		*handle_expansion(char *oldtoken,
+				t_export *head, t_expansion *exp, char *newstr);
+void		expand_all_tokens(char **tokens, t_export *head);
+char		*expand_single_token(char *oldtoken, t_export *head);
+int			copy_value(char *dest_str, int dest, char *value);
+int			parse_var_name(char *old, int *i_ptr, char *var_name);
 
 //input is exit
-void cleanup_and_exit(t_data *p, int code);
-int exit_print_too_many(t_data *p);
-void exit_print(t_data *p, char *arg);
-int is_numeric(char *str);
-int	input_is_exit(t_data *p);
-int exit_main(t_data *p);
-int count_tokens_2d(char **arg);
+void		cleanup_and_exit(t_data *p, int code);
+int			exit_print_too_many(t_data *p);
+void		exit_print(t_data *p, char *arg);
+int			is_numeric(char *str);
+int			input_is_exit(t_data *p);
+int			exit_main(t_data *p);
+int			count_tokens_2d(char **arg);
 #endif 

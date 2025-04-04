@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:58:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/01 18:18:22 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:00:29 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,41 +60,53 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-char *ft_itoa(int n)
+static int	ft_isnegative(long *nb)
 {
-    long nb;
-    int sign;
-    int len;
-    char *res;
-	long tmp;
+	int	sign;
 
-    nb = n;
-    sign = 0;
-    if (nb < 0)
-    {
-        sign = 1;
-        nb = -nb;
-    }
-    len = 1;
-    {
-        tmp = nb;
-        while (tmp >= 10)
-        {
-            tmp /= 10;
-            len++;
-        }
-    }
-    res = malloc(len + sign + 1);
-    if (!res)
-        return (NULL);
-    res[len + sign] = '\0';
-    while (len > 0)
-    {
-        res[len + sign - 1] = (nb % 10) + '0';
-        nb /= 10;
-        len--;
-    }
-    if (sign)
-        res[0] = '-';
-    return (res);
+	sign = 0;
+	if (*nb < 0)
+	{
+		sign = 1;
+		*nb = -(*nb);
+	}
+	return (sign);
+}
+
+static int	ft_count_digits(long nb)
+{
+	int	len;
+
+	len = 1;
+	while (nb >= 10)
+	{
+		nb /= 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa(int n)
+{
+	long	nb;
+	int		sign;
+	int		len;
+	char	*res;
+
+	nb = (long)n;
+	sign = ft_isnegative(&nb);
+	len = ft_count_digits(nb);
+	res = malloc(len + sign + 1);
+	if (!res)
+		return (NULL);
+	res[len + sign] = '\0';
+	while (len > 0)
+	{
+		res[len + sign - 1] = (nb % 10) + '0';
+		nb /= 10;
+		len--;
+	}
+	if (sign)
+		res[0] = '-';
+	return (res);
 }

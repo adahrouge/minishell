@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:56:13 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/01 18:16:48 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:37:15 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,29 @@ int	input_check_pipe(t_data *p, int *i, int *in_quotes, int *segment_len)
 		(*i)++;
 	}
 	return (1);
+}
+
+void	remove_quotes(char *arg)
+{
+	int	src;
+	int	dst;
+
+	src = 0;
+	dst = 0;
+	while (arg[src])
+	{
+		if (arg[src] != '"' && arg[src] != '\'')
+		{
+			arg[dst] = arg[src];
+			dst++;
+		}
+		src++;
+	}
+	arg[dst] = '\0';
+}
+
+void	trim_arg(t_data *p, t_export **head)
+{
+	expand_all_tokens(p->cmd_args, *head);
+	remove_quotes_args(p->cmd_args);
 }

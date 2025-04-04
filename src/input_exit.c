@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:20:36 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 20:03:15 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:58:00 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,4 @@ int	exit_main(t_data *p)
 	code = atoi(p->cmd_args[1]) % 256;
 	cleanup_and_exit(p, code);
 	return (1);
-}
-
-int	count_tokens_2d(char **arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i] != NULL)
-		i++;
-	return (i);
-}
-void	cleanup_and_exit(t_data *p, int code)
-{
-	if (p->input)
-		free(p->input);
-	exit(code);
 }

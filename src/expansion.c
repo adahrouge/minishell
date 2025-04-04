@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:26:36 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/03 20:07:04 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:56:12 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,53 +26,47 @@ void	expand_all_tokens(char **tokens, t_export *head)
 
 char	*expand_single_token(char *oldtoken, t_export *head)
 {
-	char	*newstr;
-	int		i;
-	int		dest;
-	int		len;
+	char		*newstr;
+	t_expansion	exp;
+	int			len;
 
 	len = ft_strlen(oldtoken);
 	newstr = malloc(len * 8 + 1);
 	if (!newstr)
 		return (oldtoken);
-	i = 0;
-	dest = 0;
-	while (oldtoken[i] != '\0')
+	exp.i = 0;
+	exp.dest = 0;
+	while (oldtoken[exp.i] != '\0')
 	{
-		if (oldtoken[i] == '$')
-			handle_expansion(oldtoken, &i, newstr, &dest, head);
+		if (oldtoken[exp.i] == '$')
+			handle_expansion(oldtoken, head, &exp, newstr);
 		else
 		{
-			newstr[dest] = oldtoken[i];
-			dest++;
-			i++;
+			newstr[exp.dest] = oldtoken[exp.i];
+			exp.dest++;
+			exp.i++;
 		}
 	}
-	newstr[dest] = '\0';
+	newstr[exp.dest] = '\0';
 	free(oldtoken);
 	return (newstr);
 }
 
-char	*handle_expansion(char *oldtoken, int *i_ptr, char *newstr, int *dest_ptr, t_export *head)
+char	*handle_expansion(char *oldtoken, t_export *head,
+			t_expansion *exp, char *newstr)
 {
 	char	var_name[256];
 	char	*value;
-	int		i;
-	int		dest;
 	int		var_len;
 
-	i = *i_ptr;
-	dest = *dest_ptr;
-	i++;
-	var_len = parse_var_name(oldtoken, &i, var_name);
+	exp->i++;
+	var_len = parse_var_name(oldtoken, &exp->i, var_name);
 	if (var_len > 0)
 	{
 		value = my_getenv(var_name, head);
 		if (value)
-			dest = copy_value(newstr, dest, value);
+			exp->dest = copy_value(newstr, exp->dest, value);
 	}
-	*i_ptr = i;
-	*dest_ptr = dest;
 	return (newstr);
 }
 
