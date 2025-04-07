@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:10:30 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 15:26:56 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/07 12:22:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	parent_execution(pid_t pid, int status, t_data *p, char *full_path)
 	else if (WIFSIGNALED(status))
 	{
 		p->exit_code = 128 + WTERMSIG(status);
-		printf("in parent_executation function\n");
 	}
 	free(full_path);
 }

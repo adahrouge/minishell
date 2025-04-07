@@ -6,23 +6,26 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:39:44 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 19:29:57 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:32:08 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	input_is_slash(t_data *p)
-// {
-// 	if (p->input[0] == '/')
-// 	{
-// 		printf("bash: %s: Is a directory\n", p->input);
-// 		p->exit_code = 126;
-// 		free(p->input);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+int	toggle_quotes(char c, t_quotes *quotes)
+{
+	if (!quotes->in_single && c == '"')
+	{
+		quotes->in_double = !quotes->in_double;
+		return (1);
+	}
+	if (!quotes->in_double && c == '\'')
+	{
+		quotes->in_single = !quotes->in_single;
+		return (1);
+	}
+	return (0);
+}
 
 int	input_is_dash(t_data *p)
 {

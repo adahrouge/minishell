@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:46:27 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 15:59:48 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:33:27 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,40 +39,66 @@ int	handle_dollar(char *arg, t_export *head)
 	return (consumed);
 }
 
+// void echo_print_arg(char *arg, t_export *head)
+// {
+//     int i;
+//     int in_double;
+//     int in_single;
+//     int consumed;
+	
+//     i = 0;
+//     in_double = 0;
+//     in_single = 0;
+//     while (arg[i] != '\0')
+//     {
+//         if (!in_single && arg[i] == '"')
+//         {
+//             in_double = !in_double;
+//             i++;
+//         }
+//         else if (!in_double && arg[i] == '\'')
+//         {
+//             in_single = !in_single;
+//             i++;
+//         }
+//         else if (arg[i] == '$' && (in_double || (!in_double && !in_single)))
+//         {
+//             i++;
+//             consumed = handle_dollar(&arg[i], head); 
+//             i += consumed;
+//         }
+//         else
+//         {
+//             write(1, &arg[i], 1);
+//             i++;
+//         }
+//     }
+// }
 void echo_print_arg(char *arg, t_export *head)
 {
-    int i;
-    int in_double;
-    int in_single;
-    int consumed;
-	
-    i = 0;
-    in_double = 0;
-    in_single = 0;
-    while (arg[i] != '\0')
-    {
-        if (!in_single && arg[i] == '"')
-        {
-            in_double = !in_double;
-            i++;
-        }
-        else if (!in_double && arg[i] == '\'')
-        {
-            in_single = !in_single;
-            i++;
-        }
-        else if (arg[i] == '$' && (in_double || (!in_double && !in_single)))
-        {
-            i++;
-            consumed = handle_dollar(&arg[i], head); 
-            i += consumed;
-        }
-        else
-        {
-            write(1, &arg[i], 1);
-            i++;
-        }
-    }
+	int i;
+	t_quotes quotes;
+	int consumed;
+
+	i = 0;
+	quotes.in_double = 0;
+	quotes.in_single = 0;
+	while (arg[i] != '\0')
+	{
+		if (toggle_quotes(arg[i], &quotes)) // you need to modify toggle_quotes accordingly to use the struct
+			i++;
+		else
+		{
+			consumed = handle_dollar_expansion(arg, i, &quotes, head);
+			if (consumed > 0)
+				i += consumed;
+			else
+			{
+				write(1, &arg[i], 1);
+				i++;
+			}
+		}
+	}
 }
 
 int	echo_conditions(t_data *p, int *i, int *no_newline)

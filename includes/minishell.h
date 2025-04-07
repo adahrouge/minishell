@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 15:56:43 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/07 12:26:21 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # define STDERR 2
+
+extern volatile sig_atomic_t	g_signal_received;
 
 typedef struct s_data
 {
@@ -75,6 +77,12 @@ typedef struct s_expansion
 	int	i;
 	int	dest;
 }	t_expansion;
+
+typedef struct s_quotes
+{
+	int	in_double;
+	int	in_single;
+}	t_quotes;
 
 //main functions + builtins
 void		build_in(t_data *p, t_export **head);
@@ -136,6 +144,9 @@ void		echo_print_arg(char *arg, t_export *head);
 int			echo_conditions(t_data *p, int *i, int *no_newline);
 int			exit_status(t_data *p);
 void		trim_arg(t_data *p, t_export **head);
+int			toggle_quotes(char c, t_quotes *quotes);
+int			handle_dollar_expansion(char *arg, int i,
+				t_quotes *quotes, t_export *head);
 
 //export env unset
 int			export(t_export *head);

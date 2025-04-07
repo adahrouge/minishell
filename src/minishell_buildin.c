@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:24:42 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 14:54:40 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:32:28 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,18 @@ void	build_in(t_data *p, t_export **head)
 	else if (ft_strcmp(p->cmd_args[0], "unset") == 0)
 		p->exit_code = ft_unset_all(p->input, head);
 	return ;
+}
+
+int	handle_dollar_expansion(char *arg, int i, t_quotes *quotes, t_export *head)
+{
+	int	consumed;
+
+	if (arg[i] == '$'
+		&& (quotes->in_double || (!quotes->in_double && !quotes->in_single)))
+	{
+		i++;
+		consumed = handle_dollar(&arg[i], head);
+		return (consumed + 1);
+	}
+	return (0);
 }

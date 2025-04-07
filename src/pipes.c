@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 14:57:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:29:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	pipe_wait_loop(t_data *p)
 	{
 		w = waitpid(p->pids[j], &status, 0);
 		if (w == -1)
-			perror("waitpid failed");
+			p->exit_code = 127;
 		j++;
 	}
 }
