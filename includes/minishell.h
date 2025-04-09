@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/07 12:26:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:34:27 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include <stdio.h>
 # include <sys/wait.h>
+# include <sys/types.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -264,4 +265,30 @@ int			is_numeric(char *str);
 int			input_is_exit(t_data *p);
 int			exit_main(t_data *p);
 int			count_tokens_2d(char **arg);
+//redirections
+void redirections(t_data *p, t_export **head);
+void handle_parent_rd(t_data *p, pid_t pid, char **cmd_args, int status);
+void handle_child_rd(t_data *p, t_export **head, char **cmd_args);
+void rd_isinput(char **cmd_args, int *fd, int *i);
+void rd_isappend(char **cmd_args, int *fd, int *i);
+void rd_isoutput(char **cmd_args, int *fd, int *i);
+void shift_tokens(char **cmd_args, int *i, int offset);
+int	input_contains_redirection(t_data *p);
+int	rd_input_correct(t_data *p);
+int	next_arg_rd(char **cmd_args, int *i);
+void pipe_rd(t_data *p, t_export **head);
+char **parse_rd(t_data *p);
+void execute_commands_rd(char *full_path, char **execve_args, char **envp, t_data *p);
+void external_commands_rd(t_data *p, t_export **head, char **cmd_args);
+char *create_path_rd(t_data *p, t_export *head, char *path_env);
+char **create_execve_rd(char **cmd_args);
+
+//redirections + pipes
+void pipe_fork_loop_rd(t_data *p, t_export **head);
+void handle_child_rd_pipes(t_data *p, t_export **head, int i);
+void setup_redirections_in_child(t_data *p);
+int open_file_for_output(char *op, char *filename);
+void remove_redir_tokens(t_data *p, int i);
+void	pipe_cleanup_rd(t_data *p);
+void execute_rd_pipes(t_data *p, t_export **head, int i);
 #endif 

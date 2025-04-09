@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:19:11 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 20:29:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:07:42 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	pipe_cleanup(t_data *p)
 	free(p->pids);
 	free_pipe(p, p->nb_of_pipes);
 	free_2d_array(p->store_pipe_arg);
-	if (p->full_path_pipe)
+	if (p->full_path_pipe != NULL)
 	{
 		free(p->full_path_pipe);
 		p->full_path_pipe = NULL;

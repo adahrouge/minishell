@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:52:09 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/02 20:08:37 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:42:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	execute_command_pipes(t_data *p, t_export *head, int i)
 {
 	char	**envp;
 	char	**cmd_args;
-
 	envp = convert_list_to_array(head);
 	cmd_args = split_cmd_quoted(p->store_pipe_arg[i]);
 	if (!cmd_args || !cmd_args[0])
