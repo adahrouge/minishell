@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/09 18:34:27 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:43:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,4 +291,20 @@ int open_file_for_output(char *op, char *filename);
 void remove_redir_tokens(t_data *p, int i);
 void	pipe_cleanup_rd(t_data *p);
 void execute_rd_pipes(t_data *p, t_export **head, int i);
+
+//heredoc
+void rd_isheredoc(t_export *head, char **cmd_args, int *i);
+void heredoc_parent(int pipefd[2], char *delimiter, char **cmd_args, int *i);
+void heredoc_child(t_export *head, char *delimiter, int pipefd[2]);
+void error_fork_heredoc(char **cmd_args, char *delimiter, int *pipefd);
+void error_pipe_heredoc(char **cmd_args, char *delimiter);
+int check_input_heredoc(char **cmd_args, int *i);
+
+//get_next_line
+char	*ft_remove_line(char *static_line);
+char	*ft_get_target(char *static_line);
+char	*allocate_and_read_buffer(int fd, int *bytes_read);
+char	*ft_update_static(char *static_line, int fd);
+char	*get_next_line(int fd);
+
 #endif 

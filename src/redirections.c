@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 20:24:18 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/09 19:20:19 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:30:57 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void handle_child_rd(t_data *p, t_export **head, char **cmd_args)
 			rd_isappend(cmd_args, &fd, &i);
 		else if (ft_strcmp(cmd_args[i], "<") == 0)
 			rd_isinput(cmd_args, &fd, &i);
+		else if (ft_strcmp(cmd_args[i], "<<") == 0)
+			rd_isheredoc(*head, cmd_args, &i);
 		else
 			i++;
 	}
