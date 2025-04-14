@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/10 19:43:53 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:19:39 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 	}
 	else if (input_contains_redirection(p) && rd_input_correct(p))
 	{
-		redirections(p, head);
-		free(p->input);
+		call_redirection(p, head);
 		return ;
 	}
 	else if (input_contains_pipe(p) && pipe_input_correct(p))

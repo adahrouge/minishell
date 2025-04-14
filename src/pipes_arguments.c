@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:02:08 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/08 19:01:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:23:17 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	create_single_arg(t_data *p, int *len, int *count, int start)
 	}
 	p->store_pipe_arg[*count][*len] = '\0';
 }
-
-
 
 void	trim_pipe_args(t_data *p)
 {

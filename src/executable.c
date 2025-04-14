@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:37:04 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/04 15:27:14 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:17:13 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	has_slash(char *arg)
 	int	i;
 
 	i = 0;
+	if (!arg)
+		return (0);
 	while (arg[i] != '\0')
 	{
 		if (arg[i] == '/')

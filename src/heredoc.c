@@ -6,13 +6,13 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:25:59 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/10 19:35:58 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:24:04 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void rd_isheredoc(t_export *head, char **cmd_args, int *i)
+void	rd_isheredoc(t_export *head, char **cmd_args, int *i)
 {
 	char	*delimiter;
 	int		pipefd[2];
@@ -36,12 +36,13 @@ void rd_isheredoc(t_export *head, char **cmd_args, int *i)
 		heredoc_child(head, delimiter, pipefd);
 	else
 		heredoc_parent(pipefd, delimiter, cmd_args, i);
-	
 }
-void heredoc_parent(int pipefd[2], char *delimiter, char **cmd_args, int *i)
+
+void	heredoc_parent(int pipefd[2], char *delimiter,
+		char **cmd_args, int *i)
 {
-	int status;
-	
+	int	status;
+
 	status = 0;
 	close(pipefd[1]);
 	waitpid(-1, &status, 0);
@@ -59,10 +60,11 @@ void heredoc_parent(int pipefd[2], char *delimiter, char **cmd_args, int *i)
 	free(cmd_args[*i + 1]);
 	shift_tokens(cmd_args, i, 2);
 }
-void heredoc_child(t_export *head, char *delimiter, int pipefd[2])
+
+void	heredoc_child(t_export *head, char *delimiter, int pipefd[2])
 {
-	char *line;
-	char *expanded;
+	char	*line;
+	char	*expanded;
 
 	close(pipefd[0]);
 	while (1)
@@ -70,12 +72,12 @@ void heredoc_child(t_export *head, char *delimiter, int pipefd[2])
 		write(STDOUT_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			break;
+			break ;
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& line[ft_strlen(delimiter)] == '\n')
 		{
 			free(line);
-			break;
+			break ;
 		}
 		expanded = expand_single_token(line, head);
 		write(pipefd[1], expanded, ft_strlen(expanded));
@@ -85,29 +87,14 @@ void heredoc_child(t_export *head, char *delimiter, int pipefd[2])
 	free(delimiter);
 	exit(0);
 }
-void error_fork_heredoc(char **cmd_args, char *delimiter, int *pipefd)
-{
-	perror("couldnt fork in heredoc");
-	free(delimiter);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	free_2d_array(cmd_args);
-	return ;
-}
-void error_pipe_heredoc(char **cmd_args, char *delimiter)
-{
-	perror("couldnt create pipe in heredoc");
-	free(delimiter);
-	free_2d_array(cmd_args);
-	return ;
-}
-int check_input_heredoc(char **cmd_args, int *i)
+
+int	check_input_heredoc(char **cmd_args, int *i)
 {
 	if (!cmd_args[*i + 1])
 	{
 		printf("error no delimiter given\n");
 		free_2d_array(cmd_args);
-		return 0;
+		return (0);
 	}
-	return 1;
+	return (1);
 }

@@ -6,12 +6,13 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:10:25 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/10 19:23:58 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:20:46 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #define BUFFER_SIZE 42
+
 char	*ft_remove_line(char *static_line)
 {
 	char	*update_static;

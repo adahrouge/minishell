@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:44:51 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/09 18:40:16 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:19:35 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,20 @@ int	next_arg_rd(char **cmd_args, int *i)
 	}
 	return (1);
 }
-char **parse_rd(t_data *p)
+
+char	**parse_rd(t_data *p)
 {
-	char **cmd_args;
+	char	**cmd_args;
+
 	cmd_args = split_cmd_quoted(p->input);
 	if (!cmd_args)
-		return NULL;
-	return cmd_args;
+		return (NULL);
+	return (cmd_args);
+}
+
+void	call_redirection(t_data *p, t_export **head)
+{
+	redirections(p, head);
+	free(p->input);
+	return ;
 }

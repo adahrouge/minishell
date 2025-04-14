@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 08:43:23 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/08 14:12:31 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:22:44 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,6 @@ int	input_is_redirect(t_data *p)
 		p->exit_code = 2;
 		return (1);
 	}
-	// else if (p->input[0] == '>' || p->input[0] == '<'
-	// 	|| ft_strcmp(p->input, "<<") == 0
-	// 	|| ft_strcmp(p->input, ">>") == 0 || ft_strcmp(p->input, "<>") == 0)
-	// {
-	// 	write(1, "bash: syntax error near unexpected token `newline'\n", 51);
-	// 	free(p->input);
-	// 	p->exit_code = 2;
-	// 	return (1);
-	// }
 	return (0);
 }
 
