@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/08 13:47:50 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:16:35 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,27 @@ void	free_allocated(t_data *p)
 	free(p->cmd_args);
 	free(p->input);
 	free(p);
+}
+
+void	free_all(t_data *p, t_export *head, char **my_environ)
+{
+	free(p);
+	free_environ(my_environ);
+	free_list(head);
+}
+
+int	free_environ(char **my_environ)
+{
+	int	i;
+
+	i = 0;
+	while (my_environ[i] != NULL)
+	{
+		free(my_environ[i]);
+		i++;
+	}
+	free(my_environ);
+	return (1);
 }
 
 int	main(int argc, char **argv, char **environ)
@@ -59,25 +80,4 @@ int	main(int argc, char **argv, char **environ)
 	loop(p, &head);
 	free_all(p, head, my_environ);
 	return (0);
-}
-
-void	free_all(t_data *p, t_export *head, char **my_environ)
-{
-	free(p);
-	free_environ(my_environ);
-	free_list(head);
-}
-
-int	free_environ(char **my_environ)
-{
-	int	i;
-
-	i = 0;
-	while (my_environ[i] != NULL)
-	{
-		free(my_environ[i]);
-		i++;
-	}
-	free(my_environ);
-	return (1);
 }

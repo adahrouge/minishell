@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/15 17:42:33 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:03:07 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	handle_pipe_or_command(t_data *p, t_export **head)
 void	handle_command_execution(t_data *p, t_export **head)
 {
 	char	*path_env;
-	int is_echo;
-	
+	int		is_echo;
+
 	is_echo = 0;
 	if (p->cmd_args[0] && ft_strcmp(p->cmd_args[0], "echo") == 0)
 		is_echo = 1;

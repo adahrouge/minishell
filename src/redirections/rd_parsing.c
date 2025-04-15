@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:44:51 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/14 17:19:35 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:33:11 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	next_arg_rd(char **cmd_args, int *i)
 		|| strcmp(cmd_args[*i + 1], ">>") == 0
 		|| strcmp(cmd_args[*i + 1], "<<") == 0)
 	{
-		printf("error next token is rd");
+		printf("error next token is rd\n");
 		return (0);
 	}
 	return (1);

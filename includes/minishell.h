@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/15 18:31:27 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:41:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_data
 	char	*correct_path;
 	char	*command_name;
 	int		*pids;
+	int		*heredoc_fd;
 }	t_data;
 
 typedef struct s_export
@@ -301,6 +302,7 @@ void		heredoc_child(t_export *head, char *delimiter, int pipefd[2]);
 void		error_fork_heredoc(char **cmd_args, char *delimiter, int *pipefd);
 void		error_pipe_heredoc(char **cmd_args, char *delimiter);
 int			check_input_heredoc(char **cmd_args, int *i);
+void		handle_all_heredocs(t_export *head, char **cmd_args);
 
 //get_next_line
 char		*ft_remove_line(char *static_line);
