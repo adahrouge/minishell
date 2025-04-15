@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 15:18:25 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/14 17:24:10 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:18:07 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	handle_child_rd_pipes(t_data *p, t_export **head, int i)
 	else
 		middle_commands(p, i);
 	p->cmd_args = split_cmd_quoted(p->store_pipe_arg[i]);
+	remove_quotes_args(p->cmd_args);
 	setup_redirections_in_child(p, head);
 	close_all_pipes(p);
 	if (p->cmd_args[0] && is_builtin(p->cmd_args[0]))

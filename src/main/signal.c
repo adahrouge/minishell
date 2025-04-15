@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:39:51 by abouraad          #+#    #+#             */
-/*   Updated: 2025/04/07 12:27:51 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:02:45 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,11 @@ void	setup_signal_handlers(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
+}
+
+void	heredoc_sigint(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	exit(130);
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/14 16:59:15 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:31:27 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		handle_pipe_or_command(t_data *p, t_export **head);
 void		sigint_handler(int signum);
 void		sigquit_handler(int signum);
 void		setup_signal_handlers(void);
-
+void		heredoc_sigint(int sig);
 //checking condition
 int			input_is_null(t_data *p);
 int			input_is_backslash(t_data *p);
@@ -277,6 +277,8 @@ char		**create_execve_rd(char **cmd_args);
 int			check_input_rd(char **cmd_args, t_export **head, int *i, int *fd);
 void		handle_out(char **args, t_data *p, int *i, int *fd);
 void		handle_in(char **args, t_data *p, int *i, int *fd);
+void		call_redirection(t_data *p, t_export **head);
+void		redir_error_exit(char *msg, t_data *p);
 
 //redirections + pipes
 void		pipe_fork_loop_rd(t_data *p, t_export **head);
@@ -289,6 +291,7 @@ void		execute_rd_pipes(t_data *p, t_export **head, int i);
 void		heredoc_pipes(t_data *p, t_export *head, int *i, int fd);
 int			create_heredoc_fd(t_export *head, char *delim);
 int			heredoc_parent_pipe(char *delim, int pipefd[2], int *status);
+int			line_matches_delim(char *line, char *delim);
 
 //heredoc
 void		rd_isheredoc(t_export *head, char **cmd_args, int *i);

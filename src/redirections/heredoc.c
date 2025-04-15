@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:25:59 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/14 15:24:04 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:00:25 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,26 @@ void	heredoc_parent(int pipefd[2], char *delimiter,
 	free(cmd_args[*i + 1]);
 	shift_tokens(cmd_args, i, 2);
 }
+int line_matches_delim(char *line, char *delim)
+{
+	size_t delim_len;
+	size_t line_len;
+
+	delim_len = ft_strlen(delim);
+	line_len = ft_strlen(line);
+	if (line_len == delim_len + 1 && ft_strncmp(line, delim, delim_len) == 0
+		&& line[delim_len] == '\n')
+		return 1;
+	return 0;
+}
 
 void	heredoc_child(t_export *head, char *delimiter, int pipefd[2])
 {
 	char	*line;
 	char	*expanded;
 
+	signal(SIGINT, heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	close(pipefd[0]);
 	while (1)
 	{
@@ -73,11 +87,10 @@ void	heredoc_child(t_export *head, char *delimiter, int pipefd[2])
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& line[ft_strlen(delimiter)] == '\n')
+		if (line_matches_delim(line, delimiter))
 		{
 			free(line);
-			break ;
+			break;
 		}
 		expanded = expand_single_token(line, head);
 		write(pipefd[1], expanded, ft_strlen(expanded));

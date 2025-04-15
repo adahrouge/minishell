@@ -1,36 +1,37 @@
-# Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -I./includes
+NAME    = minishell
 
-# Executable name
-NAME = minishell
+# Compiler + Flags
+CC      = cc
+CFLAGS  = -Wall -Wextra -Werror
+INCS    = -Iincludes
 
-# Source and object files
-SRC_DIR = src
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(SRCS:.c=.o)
+# Gather all .c files from subfolders
+SRC     = $(wildcard src/builtins/*.c) \
+          $(wildcard src/executable/*.c) \
+          $(wildcard src/libft/*.c) \
+          $(wildcard src/main/*.c) \
+          $(wildcard src/parsing/*.c) \
+          $(wildcard src/pipes/*.c) \
+          $(wildcard src/redirections/*.c)
 
-# Libraries (add -lreadline if using readline library)
-LIBS = -lreadline
+# Convert .c -> .o
+OBJ     = $(SRC:.c=.o)
 
-# Default target to build the executable
 all: $(NAME)
 
-# Rule to build the executable
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -lreadline -lhistory -lncurses -o $(NAME)
 
-# Rule to compile .c files to .o files
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# Generic .o rule
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
-# Clean up object files
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJ)
 
-# Clean up everything, including the executable
 fclean: clean
 	rm -f $(NAME)
 
-# Rebuild the project
 re: fclean all
+
+.PHONY: all clean fclean re
