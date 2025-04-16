@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 00:41:40 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:40:02 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,41 +268,28 @@ void		shift_tokens(char **cmd_args, int *i, int offset);
 int			input_contains_redirection(t_data *p);
 int			rd_input_correct(t_data *p);
 int			next_arg_rd(char **cmd_args, int *i);
-void		pipe_rd(t_data *p, t_export **head);
 char		**parse_rd(t_data *p);
-void		execute_commands_rd(char *full_path,
-				char **execve_args, char **envp, t_data *p);
-void		external_commands_rd(t_data *p, t_export **head, char **cmd_args);
-char		*create_path_rd(t_data *p, t_export *head, char *path_env);
-char		**create_execve_rd(char **cmd_args);
 int			check_input_rd(char **cmd_args, t_export **head, int *i, int *fd);
 void		handle_out(char **args, t_data *p, int *i, int *fd);
 void		handle_in(char **args, t_data *p, int *i, int *fd);
 void		call_redirection(t_data *p, t_export **head);
 void		redir_error_exit(char *msg, t_data *p);
-
+void		external_commands_rd(t_data *p, t_export **head,
+				char **cmd_args);
+char		*create_path_rd(t_data *p, t_export *head, char *path_env);
+void		execute_commands_rd(char *full_path, char **execve_args,
+	char **envp, t_data *p);
+char	**create_execve_rd(char **cmd_args);
 //redirections + pipes
-void		pipe_fork_loop_rd(t_data *p, t_export **head);
-void		handle_child_rd_pipes(t_data *p, t_export **head, int i);
-void		setup_redirections_in_child(t_data *p, t_export **head);
+// void		setup_redirections_in_child(t_data *p, t_export **head);
 int			open_file_for_output(char *op, char *filename);
 void		remove_redir_tokens(t_data *p, int i);
-void		pipe_cleanup_rd(t_data *p);
-void		execute_rd_pipes(t_data *p, t_export **head, int i);
-void		heredoc_pipes(t_data *p, t_export *head, int *i, int fd);
-int			create_heredoc_fd(t_export *head, char *delim);
-int			heredoc_parent_pipe(char *delim, int pipefd[2], int *status);
 int			line_matches_delim(char *line, char *delim);
 
 //heredoc
-void		rd_isheredoc(t_export *head, char **cmd_args, int *i);
-void		heredoc_parent(int pipefd[2], char *delimiter,
-				char **cmd_args, int *i);
+
 void		heredoc_child(t_export *head, char *delimiter, int pipefd[2]);
-void		error_fork_heredoc(char **cmd_args, char *delimiter, int *pipefd);
-void		error_pipe_heredoc(char **cmd_args, char *delimiter);
 int			check_input_heredoc(char **cmd_args, int *i);
-void		handle_all_heredocs(t_export *head, char **cmd_args);
 
 //get_next_line
 char		*ft_remove_line(char *static_line);
@@ -310,5 +297,10 @@ char		*ft_get_target(char *static_line);
 char		*allocate_and_read_buffer(int fd, int *bytes_read);
 char		*ft_update_static(char *static_line, int fd);
 char		*get_next_line(int fd);
+
+//newheredoc
+void		handle_all_heredocs(t_export *head, char **cmd_args);
+void		child_write_heredoc(t_export *head, char *delim, int fd);
+int			line_matches_delim(char *line, char *delim);
 
 #endif 

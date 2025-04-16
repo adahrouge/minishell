@@ -6,59 +6,73 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:25:59 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 00:43:26 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:59:31 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	rd_isheredoc(t_export *head, char **cmd_args, int *i)
+void	free_forheredoc(char **cmd_args, int *i)
 {
-	char	*delimiter;
+	free(cmd_args[*i]);
+	free(cmd_args[*i + 1]);
+	return ;
+}
+
+void	handle_all_heredocs(t_export *head, char **cmd_args)
+{
+	int i = 0;
 	int		pipefd[2];
 	pid_t	pid;
 
-	if (!check_input_heredoc(cmd_args, i))
-		return ;
-	delimiter = ft_strdup(cmd_args[*i + 1]);
 	if (pipe(pipefd) < 0)
+		return ;
+	while (cmd_args[i])
 	{
-		error_pipe_heredoc(cmd_args, delimiter);
-		exit(EXIT_FAILURE);
+		if (!ft_strcmp(cmd_args[i], "<<") && cmd_args[i + 1])
+		{
+			pid = fork();
+			if (pid < 0)
+				return ;
+			if (pid == 0)
+				child_write_heredoc(head, cmd_args[i + 1], pipefd[1]);
+			waitpid(pid, NULL, 0);
+			free_forheredoc(cmd_args, &i);
+			shift_tokens(cmd_args, &i, 2);
+			continue ;
+		}
+		i++;
 	}
-	pid = fork();
-	if (pid < 0)
-	{
-		error_fork_heredoc(cmd_args, delimiter, pipefd);
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-		heredoc_child(head, delimiter, pipefd);
-	else
-		heredoc_parent(pipefd, delimiter, cmd_args, i);
+	close(pipefd[1]);
+	if (dup2(pipefd[0], 0) < 0)
+		return ;
+	close(pipefd[0]);
 }
 
-void	heredoc_parent(int pipefd[2], char *delimiter,
-		char **cmd_args, int *i)
+void	child_write_heredoc(t_export *head, char *delim, int fd)
 {
-	int	status;
+	char	*line;
+	char	*token;
 
-	status = 0;
-	close(pipefd[1]);
-	waitpid(-1, &status, 0);
-	if (dup2(pipefd[0], STDIN_FILENO) < 0)
+	signal(SIGINT, heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	while (1)
 	{
-		perror("dup2");
-		close(pipefd[0]);
-		free(delimiter);
-		free_2d_array(cmd_args);
-		exit(1);
+		ft_putstr_fd("> ", 1);
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (line_matches_delim(line, delim))
+		{
+			free(line);
+			break ;
+		}
+		token = expand_single_token(line, head);
+		write(fd, token, ft_strlen(token));
+		free(token);
 	}
-	close(pipefd[0]);
-	free(delimiter);
-	free(cmd_args[*i]);
-	free(cmd_args[*i + 1]);
-	shift_tokens(cmd_args, i, 2);
+	close(fd);
+	exit(0);
 }
 
 int	line_matches_delim(char *line, char *delim)
@@ -68,38 +82,12 @@ int	line_matches_delim(char *line, char *delim)
 
 	delim_len = ft_strlen(delim);
 	line_len = ft_strlen(line);
-	if (line_len == delim_len + 1 && ft_strncmp(line, delim, delim_len) == 0
-		&& line[delim_len] == '\n')
-		return (1);
-	return (0);
-}
-
-void	heredoc_child(t_export *head, char *delimiter, int pipefd[2])
-{
-	char	*line;
-	char	*expanded;
-
-	signal(SIGINT, heredoc_sigint);
-	signal(SIGQUIT, SIG_IGN);
-	close(pipefd[0]);
-	while (1)
+	if (line_len == delim_len + 1)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		if (line_matches_delim(line, delimiter))
-		{
-			free(line);
-			break ;
-		}
-		expanded = expand_single_token(line, head);
-		write(pipefd[1], expanded, ft_strlen(expanded));
-		free(expanded);
+		if (!ft_strncmp(line, delim, delim_len) && line[delim_len] == '\n')
+			return (1);
 	}
-	close(pipefd[1]);
-	free(delimiter);
-	exit(0);
+	return (0);
 }
 
 int	check_input_heredoc(char **cmd_args, int *i)
@@ -111,4 +99,17 @@ int	check_input_heredoc(char **cmd_args, int *i)
 		return (0);
 	}
 	return (1);
+}
+
+void	shift_tokens(char **cmd_args, int *i, int offset)
+{
+	int	j;
+
+	j = *i;
+	while (cmd_args[j + offset])
+	{
+		cmd_args[j] = cmd_args[j + offset];
+		j++;
+	}
+	cmd_args[j] = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 20:24:18 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/15 18:17:20 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:59:11 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,84 +60,44 @@ void	handle_child_rd(t_data *p, t_export **head, char **cmd_args)
 		return ;
 	}
 }
-
-void	rd_isinput(char **cmd_args, int *fd, int *i)
+void	handle_parent_rd(t_data *p, pid_t pid, char **cmd_args, int status)
 {
-	if (!cmd_args[*i + 1])
-	{
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	*fd = open(cmd_args[*i + 1], O_RDONLY);
-	if (*fd < 0)
-	{
-		perror("open");
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	if (dup2(*fd, STDIN_FILENO) < 0)
-	{
-		perror("dup2");
-		close(*fd);
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	close(*fd);
-	free(cmd_args[*i]);
-	free(cmd_args[*i + 1]);
-	shift_tokens(cmd_args, i, 2);
-}
-
-void	rd_isappend(char **cmd_args, int *fd, int *i)
-{
-	if (!cmd_args[*i + 1])
-	{
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	*fd = open(cmd_args[*i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (*fd < 0)
-	{
-		perror("open");
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	if (dup2(*fd, STDOUT_FILENO) < 0)
-	{
-		perror("dup2");
-		close(*fd);
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	close(*fd);
-	free(cmd_args[*i]);
-	free(cmd_args[*i + 1]);
-	shift_tokens(cmd_args, i, 2);
-}
-
-void	rd_isoutput(char **cmd_args, int *fd, int *i)
-{
-	if (!cmd_args[*i + 1])
-	{
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	*fd = open(cmd_args[*i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (*fd < 0)
-	{
-		close(*fd);
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	if (dup2(*fd, STDOUT_FILENO) < 0)
-	{
-		close(*fd);
-		free_2d_array(cmd_args);
-		exit(1);
-	}
-	close(*fd);
-	free(cmd_args[*i]);
-	free(cmd_args[*i + 1]);
-	shift_tokens(cmd_args, i, 2);
+	waitpid(pid, &status, 0);
+	free_2d_array(cmd_args);
+	if (WIFEXITED(status))
+		p->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		p->exit_code = 128 + WTERMSIG(status);
 	return ;
+}
+int	check_input_rd(char **cmd_args, t_export **head, int *i, int *fd)
+{
+	while (cmd_args[*i] != NULL)
+	{
+		if (ft_strcmp(cmd_args[*i], ">") == 0)
+			rd_isoutput(cmd_args, fd, i);
+		else if (ft_strcmp(cmd_args[*i], ">>") == 0)
+			rd_isappend(cmd_args, fd, i);
+		else if (ft_strcmp(cmd_args[*i], "<") == 0)
+			rd_isinput(cmd_args, fd, i);
+		else if (ft_strcmp(cmd_args[*i], "<<") == 0)
+			handle_all_heredocs(*head, cmd_args);
+		else
+			(*i)++;
+	}
+	return (-100);
+}
+void	remove_redir_tokens(t_data *p, int i)
+{
+	int	j;
+
+	j = i;
+	free(p->cmd_args[i]);
+	free(p->cmd_args[i + 1]);
+	while (p->cmd_args[j + 2])
+	{
+		p->cmd_args[j] = p->cmd_args[j + 2];
+		j++;
+	}
+	p->cmd_args[j] = NULL;
 }
