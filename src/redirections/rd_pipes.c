@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:11:07 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/22 18:46:07 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:45:19 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ void	pipe_rd(t_data *p, t_export **head)
 
 void	pipe_fork_loop_rd(t_data *p, t_export **head)
 {
-	int	i;
+	int		i;
+	char	**cmd_args;
 
+	cmd_args = NULL;
 	i = 0;
 	while (i < p->num_commands)
 	{
@@ -47,17 +49,16 @@ void	pipe_fork_loop_rd(t_data *p, t_export **head)
 			exit(EXIT_FAILURE);
 		}
 		if (p->pids[i] == 0)
-			handle_child_rd_pipes(p, head, i);
+			handle_child_rd_pipes(p, head, i, cmd_args);
 		else
 			handle_parent(p, i);
 		i++;
 	}
 }
 
-void	handle_child_rd_pipes(t_data *p, t_export **head, int index)
+void	handle_child_rd_pipes(t_data *p, t_export **head,
+			int index, char **cmd_args)
 {
-	char	**cmd_args;
-
 	cmd_args = split_cmd_quoted(p->store_pipe_arg[index]);
 	remove_quotes_args(cmd_args);
 	p->cmd_args = cmd_args;
@@ -76,8 +77,12 @@ void	handle_child_rd_pipes(t_data *p, t_export **head, int index)
 		exit(p->exit_code);
 	}
 	create_path_pipes(p, *head, index);
+	if (!p->correct_path)
+	{
+		path_is_null(cmd_args);
+		exit(127);
+	}
 	execve(p->correct_path, cmd_args, convert_list_to_array(*head));
-	perror("execve failed");
 	exit(127);
 }
 

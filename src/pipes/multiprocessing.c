@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:00:35 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/08 15:17:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:48:31 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,15 @@ void	handle_child(t_data *p, t_export *head, int i)
 	else
 	{
 		create_path_pipes(p, head, i);
+		if (p->correct_path == NULL)
+		{
+			printf("Wrong Command\n");
+			free(p->input);
+			p->exit_code = 127;
+			return ;
+		}
 		p->exit_code = execute_command_pipes(p, head, i);
 	}
-	return ;
 }
 
 void	handle_parent(t_data *p, int i)

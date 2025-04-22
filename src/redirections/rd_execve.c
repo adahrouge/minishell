@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:44:24 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/22 18:47:03 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:52:05 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ void	external_commands_rd(t_data *p, t_export **head, char **cmd_args)
 	while (cmd_args[i] != NULL)
 		i++;
 	full_path = create_path_rd(p, *head, path_env);
+	if (!full_path)
+	{
+		write(2, "command not found\n", 19);
+		free_2d_array(execve_args);
+		free_2d_array(envp);
+		p->exit_code = 127;
+		return ;
+	}
 	if (full_path)
 		execute_commands_rd(full_path, execve_args, envp, p);
 	return ;

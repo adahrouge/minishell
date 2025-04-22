@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:58:19 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/22 18:50:07 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:45:29 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,11 @@ void	shift_tokens(char **cmd_args, int *i, int offset)
 		j++;
 	}
 	cmd_args[j] = NULL;
+}
+
+void	path_is_null(char **cmd_args)
+{
+	write(2, "command not found\n", 19);
+	free_2d_array(cmd_args);
+	return ;
 }

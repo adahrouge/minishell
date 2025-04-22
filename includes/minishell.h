@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/22 18:50:29 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:49:50 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int			input_is_dash(t_data *p);
 int			input_is_and(t_data *p);
 int			input_is_clear(t_data *p);
 int			input_contains_pipe(t_data *p);
+void		path_is_null(char **cmd_args);
 
 //lib_ft
 char		*ft_substr(char const *s, unsigned int start, size_t len);
@@ -195,7 +196,6 @@ void		trim_pipe_args(t_data *p);
 // char *create_path_pipes(t_data *p, t_export *head, int i);
 char		*parse_command(t_data *p, int i);
 void		parse_pipes(t_data *p);
-void		remove_all_quotes_pipes(char *str);
 void		pipes(t_data *p, t_export *head);
 void		handle_pipe(t_data *p, int *len, int *count, int *i);
 void		handle_quotes_pipes(char c, int *in_quotes);
@@ -214,7 +214,6 @@ int			pipe_input_correct(t_data *p);
 int			input_check_pipe(t_data *p, int *i,
 				int *in_quotes, int *segment_len);
 
-//debug
 void		free_all(t_data *p, t_export *head, char **my_environ);
 //quote_split.c
 void		skip_quotes(const char *str, int *i);
@@ -280,7 +279,8 @@ void		remove_redir_tokens(t_data *p, int i);
 int			line_matches_delim(char *line, char *delim);
 void		pipe_rd(t_data *p, t_export **head);
 void		pipe_fork_loop_rd(t_data *p, t_export **head);
-void		handle_child_rd_pipes(t_data *p, t_export **head, int index);
+void		handle_child_rd_pipes(t_data *p, t_export **head,
+				int index, char **cmd_args);
 void		setup_redirections_in_child(t_data *p, t_export **head);
 void		pipe_cleanup_rd(t_data *p);
 //heredoc
