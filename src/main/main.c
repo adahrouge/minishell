@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:03:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 00:16:35 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:25:40 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ int	main(int argc, char **argv, char **environ)
 		return (0);
 	}
 	my_environ = copy_environ(environ);
-	setup_signal_handlers();
 	p = malloc(sizeof(t_data));
 	if (!p)
 		return (0);
+	setup_signal_handlers();
 	head = populate_list(my_environ);
 	if (!head)
 	{

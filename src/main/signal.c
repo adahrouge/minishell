@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:39:51 by abouraad          #+#    #+#             */
-/*   Updated: 2025/04/15 19:02:45 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:31:13 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ volatile sig_atomic_t	g_signal_received = 0;
 
 void	sigint_handler(int signum)
 {
-	g_signal_received = signum;
+	(void)signum;
+	g_signal_received = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	rl_done = 1;
 }
 
 void	sigquit_handler(int signum)

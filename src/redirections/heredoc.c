@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:25:59 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 19:59:31 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:51:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	free_forheredoc(char **cmd_args, int *i)
 
 void	handle_all_heredocs(t_export *head, char **cmd_args)
 {
-	int i = 0;
+	int		i;
 	int		pipefd[2];
 	pid_t	pid;
 
+	i = 0;
 	if (pipe(pipefd) < 0)
 		return ;
 	while (cmd_args[i])
@@ -36,9 +37,7 @@ void	handle_all_heredocs(t_export *head, char **cmd_args)
 				return ;
 			if (pid == 0)
 				child_write_heredoc(head, cmd_args[i + 1], pipefd[1]);
-			waitpid(pid, NULL, 0);
-			free_forheredoc(cmd_args, &i);
-			shift_tokens(cmd_args, &i, 2);
+			heredoc_utils(pid, cmd_args, &i);
 			continue ;
 		}
 		i++;
@@ -47,6 +46,13 @@ void	handle_all_heredocs(t_export *head, char **cmd_args)
 	if (dup2(pipefd[0], 0) < 0)
 		return ;
 	close(pipefd[0]);
+}
+
+void	heredoc_utils(pid_t pid, char **cmd_args, int *i)
+{
+	waitpid(pid, NULL, 0);
+	free_forheredoc(cmd_args, i);
+	shift_tokens(cmd_args, i, 2);
 }
 
 void	child_write_heredoc(t_export *head, char *delim, int fd)
@@ -88,28 +94,4 @@ int	line_matches_delim(char *line, char *delim)
 			return (1);
 	}
 	return (0);
-}
-
-int	check_input_heredoc(char **cmd_args, int *i)
-{
-	if (!cmd_args[*i + 1])
-	{
-		printf("error no delimiter given\n");
-		free_2d_array(cmd_args);
-		return (0);
-	}
-	return (1);
-}
-
-void	shift_tokens(char **cmd_args, int *i, int offset)
-{
-	int	j;
-
-	j = *i;
-	while (cmd_args[j + offset])
-	{
-		cmd_args[j] = cmd_args[j + offset];
-		j++;
-	}
-	cmd_args[j] = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:05:34 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/18 21:25:21 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:50:29 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,8 +272,8 @@ void		external_commands_rd(t_data *p, t_export **head,
 				char **cmd_args);
 char		*create_path_rd(t_data *p, t_export *head, char *path_env);
 void		execute_commands_rd(char *full_path, char **execve_args,
-	char **envp, t_data *p);
-char	**create_execve_rd(char **cmd_args);
+				char **envp, t_data *p);
+char		**create_execve_rd(char **cmd_args);
 
 //redirections + pipes
 void		remove_redir_tokens(t_data *p, int i);
@@ -284,7 +284,7 @@ void		handle_child_rd_pipes(t_data *p, t_export **head, int index);
 void		setup_redirections_in_child(t_data *p, t_export **head);
 void		pipe_cleanup_rd(t_data *p);
 //heredoc
-
+void		heredoc_utils(pid_t pid, char **cmd_args, int *i);
 int			check_input_heredoc(char **cmd_args, int *i);
 void		handle_all_heredocs(t_export *head, char **cmd_args);
 void		child_write_heredoc(t_export *head, char *delim, int fd);
@@ -295,7 +295,5 @@ char		*ft_get_target(char *static_line);
 char		*allocate_and_read_buffer(int fd, int *bytes_read);
 char		*ft_update_static(char *static_line, int fd);
 char		*get_next_line(int fd);
-
-
 
 #endif 

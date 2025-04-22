@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:44:24 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 19:44:58 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:47:03 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,15 @@ void	execute_commands_rd(char *full_path, char **execve_args,
 		free(full_path);
 		free_2d_array(envp);
 	}
+}
+
+int	check_input_heredoc(char **cmd_args, int *i)
+{
+	if (!cmd_args[*i + 1])
+	{
+		printf("error no delimiter given\n");
+		free_2d_array(cmd_args);
+		return (0);
+	}
+	return (1);
 }

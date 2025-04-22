@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 20:24:18 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 19:59:11 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:46:33 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	handle_child_rd(t_data *p, t_export **head, char **cmd_args)
 		return ;
 	}
 }
+
 void	handle_parent_rd(t_data *p, pid_t pid, char **cmd_args, int status)
 {
 	waitpid(pid, &status, 0);
@@ -70,6 +71,7 @@ void	handle_parent_rd(t_data *p, pid_t pid, char **cmd_args, int status)
 		p->exit_code = 128 + WTERMSIG(status);
 	return ;
 }
+
 int	check_input_rd(char **cmd_args, t_export **head, int *i, int *fd)
 {
 	while (cmd_args[*i] != NULL)
@@ -87,6 +89,7 @@ int	check_input_rd(char **cmd_args, t_export **head, int *i, int *fd)
 	}
 	return (-100);
 }
+
 void	remove_redir_tokens(t_data *p, int i)
 {
 	int	j;

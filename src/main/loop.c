@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:44:33 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/18 21:10:52 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:29:19 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,13 @@ void	loop(t_data *p, t_export **head)
 	{
 		if (!read_line(p))
 			break ;
+		if (g_signal_received == SIGINT)
+		{
+			p->exit_code = 130;
+			g_signal_received = 0;
+			free(p->input);
+			continue ;
+		}
 		special_result = check_loop_result(p);
 		if (special_result == -1)
 			break ;

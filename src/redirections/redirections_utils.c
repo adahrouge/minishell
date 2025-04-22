@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:58:19 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/16 19:59:04 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:50:07 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,3 +93,15 @@ void	rd_isoutput(char **cmd_args, int *fd, int *i)
 	return ;
 }
 
+void	shift_tokens(char **cmd_args, int *i, int offset)
+{
+	int	j;
+
+	j = *i;
+	while (cmd_args[j + offset])
+	{
+		cmd_args[j] = cmd_args[j + offset];
+		j++;
+	}
+	cmd_args[j] = NULL;
+}

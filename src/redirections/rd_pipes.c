@@ -6,16 +6,16 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:11:07 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/18 22:03:02 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:46:07 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void pipe_rd(t_data *p, t_export **head)
+void	pipe_rd(t_data *p, t_export **head)
 {
-	char **all_args;
-	int std_in;
+	char	**all_args;
+	int		std_in;
 
 	std_in = dup(STDIN_FILENO);
 	all_args = split_cmd_quoted(p->input);
@@ -33,9 +33,9 @@ void pipe_rd(t_data *p, t_export **head)
 	close(std_in);
 }
 
-void pipe_fork_loop_rd(t_data *p, t_export **head)
+void	pipe_fork_loop_rd(t_data *p, t_export **head)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < p->num_commands)
@@ -53,9 +53,10 @@ void pipe_fork_loop_rd(t_data *p, t_export **head)
 		i++;
 	}
 }
-void handle_child_rd_pipes(t_data *p, t_export **head, int index)
+
+void	handle_child_rd_pipes(t_data *p, t_export **head, int index)
 {
-	char **cmd_args;
+	char	**cmd_args;
 
 	cmd_args = split_cmd_quoted(p->store_pipe_arg[index]);
 	remove_quotes_args(cmd_args);
@@ -80,39 +81,40 @@ void handle_child_rd_pipes(t_data *p, t_export **head, int index)
 	exit(127);
 }
 
-void setup_redirections_in_child(t_data *p, t_export **head)
+void	setup_redirections_in_child(t_data *p, t_export **head)
 {
-	int i;
-	int fd;
-	char **args;
+	int		i;
+	int		fd;
+	char	**args;
 
 	i = 0;
 	args = p->cmd_args;
 	while (args[i])
 	{
-        if (ft_strcmp(args[i], "<<") == 0)
-            handle_all_heredocs(*head, args);
-        else if (ft_strcmp(args[i], "<") == 0)
-            rd_isinput(args, &fd, &i);
-        else if (ft_strcmp(args[i], ">>") == 0)
-            rd_isappend(args, &fd, &i);
-        else if (ft_strcmp(args[i], ">") == 0)
-            rd_isoutput(args, &fd, &i);
-        else
-            i++;
-    }
+		if (ft_strcmp(args[i], "<<") == 0)
+			handle_all_heredocs(*head, args);
+		else if (ft_strcmp(args[i], "<") == 0)
+			rd_isinput(args, &fd, &i);
+		else if (ft_strcmp(args[i], ">>") == 0)
+			rd_isappend(args, &fd, &i);
+		else if (ft_strcmp(args[i], ">") == 0)
+			rd_isoutput(args, &fd, &i);
+		else
+			i++;
+	}
 }
-void pipe_cleanup_rd(t_data *p)
+
+void	pipe_cleanup_rd(t_data *p)
 {
-    int i;
-    
-    i = 0;
-    free(p->pids);
-    while (i < p->nb_of_pipes)
-    {
-        free(p->pipefd[i]);
-        i++;
-    }
-    free(p->pipefd);
-    free_2d_array(p->store_pipe_arg);
+	int	i;
+
+	i = 0;
+	free(p->pids);
+	while (i < p->nb_of_pipes)
+	{
+		free(p->pipefd[i]);
+		i++;
+	}
+	free(p->pipefd);
+	free_2d_array(p->store_pipe_arg);
 }
