@@ -6,7 +6,7 @@
 /*   By: adahroug <adahroug@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:25:59 by adahroug          #+#    #+#             */
-/*   Updated: 2025/04/22 18:51:03 by adahroug         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:41:38 by adahroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_all_heredocs(t_export *head, char **cmd_args)
 		return ;
 	while (cmd_args[i])
 	{
-		if (!ft_strcmp(cmd_args[i], "<<") && cmd_args[i + 1])
+		if (!ft_strncmp(cmd_args[i], "<<", 2) && cmd_args[i + 1])
 		{
 			pid = fork();
 			if (pid < 0)
